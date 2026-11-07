@@ -1,0 +1,33 @@
+part_no,name_de,name_en,category,compatible_models,unit_price_eur
+HPC-VLV-101,Saugventil komplett,Suction valve assembly,Ventile,HPC-300,420.00
+HPC-VLV-102,Druckventil komplett,Discharge valve assembly,Ventile,HPC-300,465.00
+HPC-VLV-201,Saugventil komplett,Suction valve assembly,Ventile,HPC-500,540.00
+HPC-VLV-202,Druckventil komplett,Discharge valve assembly,Ventile,HPC-500,590.00
+HPC-SEA-110,Kolbenringsatz,Piston ring set,Dichtungen,HPC-300,185.00
+HPC-SEA-210,Kolbenringsatz,Piston ring set,Dichtungen,HPC-500,230.00
+HPC-SEA-120,Dichtungssatz Zylinderkopf,Cylinder head gasket kit,Dichtungen,HPC-300;HPC-500,95.00
+HPC-FLT-130,Ansaugfilter,Intake air filter,Filter,HPC-300;HPC-500,38.50
+HPC-FLT-131,Ölfilter,Oil filter,Filter,HPC-300;HPC-500,24.90
+HPC-LUB-140,Kompressoröl synthetisch 5 L,Synthetic compressor oil 5 L,Betriebsstoffe,HPC-300;HPC-500,79.00
+HPC-SNS-150,Drucktransmitter 0-600 bar,Pressure transmitter 0-600 bar,Sensorik,HPC-300;HPC-500,310.00
+HPC-SNS-151,Temperaturfühler PT100,Temperature sensor PT100,Sensorik,HPC-300;HPC-500,68.00
+HPC-MEC-160,Keilriemensatz,V-belt set,Antrieb,HPC-300,54.00
+HPC-MEC-260,Keilriemensatz,V-belt set,Antrieb,HPC-500,72.00
+HPC-SAF-170,Sicherheitsventil 330 bar,Safety relief valve 330 bar,Sicherheit,HPC-300,215.00
+HPC-SAF-270,Sicherheitsventil 550 bar,Safety relief valve 550 bar,Sicherheit,HPC-500,260.00
+H2D-NOZ-301,Zapfkupplung 350 bar,Refueling nozzle 350 bar,Betankung,H2D-350,1850.00
+H2D-NOZ-701,Zapfkupplung 700 bar,Refueling nozzle 700 bar,Betankung,H2D-700,2450.00
+H2D-HOS-302,Betankungsschlauch 350 bar,Refueling hose 350 bar,Betankung,H2D-350,690.00
+H2D-HOS-702,Betankungsschlauch 700 bar,Refueling hose 700 bar,Betankung,H2D-700,880.00
+H2D-BRK-303,Abreißkupplung,Breakaway coupling,Sicherheit,H2D-350;H2D-700,940.00
+H2D-VLV-310,Rückschlagventil DN6,Check valve DN6,Ventile,H2D-350;H2D-700,145.00
+H2D-VLV-311,Rückschlagventil DN10,Check valve DN10,Ventile,H2D-350;H2D-700,175.00
+H2D-VLV-320,Magnetventil 700 bar,Solenoid valve 700 bar,Ventile,H2D-700,1120.00
+H2D-SNS-330,Wasserstoff-Gassensor,Hydrogen gas detector,Sensorik,H2D-350;H2D-700,385.00
+H2D-SNS-331,Coriolis-Durchflussmesser,Coriolis flow meter,Sensorik,H2D-350;H2D-700,3200.00
+H2D-FLT-340,Partikelfilter 5 Mikron,Particle filter 5 micron,Filter,H2D-350;H2D-700,210.00
+H2D-SEA-350,O-Ring-Satz Zapfkupplung,O-ring kit for nozzle,Dichtungen,H2D-350;H2D-700,42.00
+HPU-PMP-401,Axialkolbenpumpe,Axial piston pump,Hydraulik,HPU-200,2780.00
+HPU-FLT-402,Rücklauffilterelement,Return filter element,Filter,HPU-200,46.00
+HPU-VLV-403,Druckbegrenzungsventil,Pressure relief valve,Ventile,HPU-200,320.00
+HPU-SEA-404,Dichtungssatz Hydraulikzylinder,Hydraulic cylinder seal kit,Dichtungen,HPU-200,88.00
