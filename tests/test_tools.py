@@ -1,4 +1,4 @@
-from src.tools import check_stock, search_part_catalog
+from src.tools import check_stock, draft_reply, search_part_catalog
 
 
 def top_part_no(result: dict) -> str:
@@ -72,3 +72,29 @@ def test_stock_partially_available():
 def test_stock_unknown_part():
     result = check_stock("XYZ-000", 1)
     assert result["found"] is False
+
+
+def test_draft_reply_uses_data_from_catalog_and_stock():
+    result = draft_reply("Markus Weber", [{"part_no": "HPC-SEA-110", "quantity": 2}])
+    assert result["ok"] is True
+    assert "Guten Tag Markus Weber" in result["draft"]
+    assert "185,00 EUR" in result["draft"]
+    assert "ab Lager verfügbar" in result["draft"]
+
+
+def test_draft_reply_in_english_shows_lead_time():
+    result = draft_reply("Sarah Collins", [{"part_no": "H2D-BRK-303", "quantity": 1}], language="en")
+    assert "out of stock" in result["draft"]
+    assert "30 working days" in result["draft"]
+
+
+def test_draft_reply_with_only_questions():
+    result = draft_reply("Petra Schulz", [], ["Welche Nennweite benötigen Sie: DN6 oder DN10?"])
+    assert "DN6 oder DN10" in result["draft"]
+    assert "EUR" not in result["draft"]
+
+
+def test_draft_reply_rejects_unknown_part():
+    result = draft_reply("X", [{"part_no": "BAD-000", "quantity": 1}])
+    assert result["ok"] is False
+    assert result["draft"] is None

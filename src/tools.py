@@ -116,3 +116,94 @@ def check_stock(part_no: str, quantity: int) -> dict:
         "delivery_days_from_stock": SHIPPING_DAYS,
         "delivery_days_for_rest": None if fully_available else lead_time + SHIPPING_DAYS,
     }
+
+def _format_eur(value: float, language: str) -> str:
+    text = f"{value:,.2f}"
+    if language == "de":
+        text = text.replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"{text} EUR"
+
+
+def _availability_text(stock: dict, language: str) -> str:
+    if language == "de":
+        if stock["fully_available"]:
+            return f"ab Lager verfügbar, Lieferung in ca. {stock['delivery_days_from_stock']} Werktagen"
+        if stock["qty_from_stock"] == 0:
+            return f"derzeit nicht auf Lager, Lieferzeit ca. {stock['delivery_days_for_rest']} Werktage"
+        return (
+            f"{stock['qty_from_stock']} Stück ab Lager (ca. {stock['delivery_days_from_stock']} Werktage), "
+            f"Rest in ca. {stock['delivery_days_for_rest']} Werktagen"
+        )
+
+    if stock["fully_available"]:
+        return f"in stock, delivery in approx. {stock['delivery_days_from_stock']} working days"
+    if stock["qty_from_stock"] == 0:
+        return f"currently out of stock, lead time approx. {stock['delivery_days_for_rest']} working days"
+    return (
+        f"{stock['qty_from_stock']} pcs from stock (approx. {stock['delivery_days_from_stock']} working days), "
+        f"rest in approx. {stock['delivery_days_for_rest']} working days"
+    )
+
+
+def _line_text(number, name, part_no, quantity, unit_price, stock, language) -> str:
+    price = _format_eur(unit_price, language)
+    availability = _availability_text(stock, language)
+    if language == "de":
+        return f"{number}. {name} ({part_no}), {quantity} Stk., {price}/Stk., {availability}"
+    return f"{number}. {name} ({part_no}), qty {quantity}, {price}/pc, {availability}"
+
+
+def draft_reply(
+    contact_name: str | None,
+    items: list[dict],
+    open_questions: list[str] | None = None,
+    language: str = "de",
+) -> dict:
+    catalog = load_catalog()
+    lines = []
+    errors = []
+
+    for item in items:
+        part_no = item["part_no"]
+        quantity = int(item["quantity"])
+        rows = catalog[catalog["part_no"] == part_no]
+        if rows.empty:
+            errors.append(f"Unknown part number: {part_no}")
+            continue
+
+        part = rows.iloc[0]
+        stock = check_stock(part_no, quantity)
+        name = part["name_de"] if language == "de" else part["name_en"]
+        unit_price = float(part["unit_price_eur"])
+        line = _line_text(len(lines) + 1, name, part_no, quantity, unit_price, stock, language)
+        lines.append(line)
+
+    if errors:
+        return {"ok": False, "errors": errors, "draft": None}
+
+    questions = open_questions or []
+    if language == "de":
+        greeting = f"Guten Tag {contact_name}," if contact_name else "Guten Tag,"
+        parts = [greeting, "", "vielen Dank für Ihre Anfrage."]
+        if lines:
+            parts += ["", "Gerne bieten wir Ihnen folgende Positionen an:", "", *lines]
+        if questions:
+            parts += ["", "Für die weitere Bearbeitung benötigen wir noch folgende Angaben:"]
+            parts += [f"- {question}" for question in questions]
+        if lines:
+            parts += ["", "Alle Preise verstehen sich netto zzgl. MwSt."]
+        parts += ["", "Mit freundlichen Grüßen", "Ihr Ersatzteil-Service"]
+    else:
+        greeting = f"Dear {contact_name}," if contact_name else "Hello,"
+        parts = [greeting, "", "thank you for your request."]
+        if lines:
+            parts += ["", "We are pleased to offer the following items:", "", *lines]
+        if questions:
+            parts += ["", "To process your request, we still need the following information:"]
+            parts += [f"- {question}" for question in questions]
+        if lines:
+            parts += ["", "All prices are net, plus VAT."]
+        parts += ["", "Best regards", "Your Spare Parts Service"]
+
+    return {"ok": True, "errors": [], "draft": "\n".join(parts)}
+
