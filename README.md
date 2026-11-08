@@ -4,6 +4,7 @@ An LLM agent that reads customer e-mails asking for spare parts, finds the right
 
 > Portfolio project. All companies, machines, parts, prices and e-mails are **synthetic demo data**.
 
+![Case review with urgency warning, extracted data and original e-mail](docs/screenshots/02-case-overview.png)
 ---
 
 ## The problem
@@ -22,6 +23,15 @@ This project shows how an **AI agent with tool calling** can do the repetitive p
    - `draft_reply` – builds the reply (German or English) from a fixed template
 4. **Human in the loop** – the employee sees the original e-mail, the extracted data, every tool call with its result, the agent's summary and the draft. They can edit, approve or reject. Only approved replies go to the `outbox/`.
 
+## Screenshots
+
+**Inbox and case list** – processed e-mails leave the inbox and become cases with a review status.
+
+![Inbox and case list](docs/screenshots/01-inbox.png)
+
+**Tool call trace** – the employee can see every tool the agent called and what it returned. Here the agent searched by part number, got no exact match, and searched again by part name.
+
+![Tool call trace and editable reply](docs/screenshots/03-tool-calls.png)
 ## Architecture
 
 ```mermaid
