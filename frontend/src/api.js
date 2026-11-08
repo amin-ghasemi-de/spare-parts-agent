@@ -21,7 +21,8 @@ async function request(path, options = {}) {
 }
 
 export const api = {
-  getSampleEmails: () => request('/sample-emails'),
+  getInbox: () => request('/inbox'),
+  processInboxEmail: (name) => request(`/inbox/${name}/process`, { method: 'POST' }),
   getCases: () => request('/cases'),
   getCase: (id) => request(`/cases/${id}`),
   createCase: (emailText) =>

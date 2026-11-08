@@ -104,9 +104,10 @@ Your job:
      and the machine model. Never choose a part based only on a part-number search.
 2. If several parts fit equally well and the e-mail does not say which one, do NOT guess.
    Leave that part out of the offer and ask the customer in open_questions which option they need.
-3. If the part you identified has a different part number than the one the customer wrote,
-   still offer it, but add an open question asking the customer to confirm it.
-   Mention both part numbers in that question.
+3. If the customer wrote a part number and search_part_catalog returned exact_part_no_match = false,
+   still offer the part you identified, but add an open question asking the customer to confirm it.
+   Mention both part numbers in that question. If exact_part_no_match was true, do NOT ask:
+   differences in spaces, hyphens or upper/lower case are the same part number.
 4. Call check_stock for every identified part.
 5. Call draft_reply exactly once. Use language "en" if the e-mail is in English, otherwise "de".
 6. After draft_reply, answer with a short summary for the employee (2-4 sentences, English):

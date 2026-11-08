@@ -322,3 +322,21 @@ table.items td {
   font: inherit;
   text-decoration: underline;
 }
+
+.section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-space {
+  margin-top: 16px;
+}
