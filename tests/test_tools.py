@@ -98,3 +98,14 @@ def test_draft_reply_rejects_unknown_part():
     result = draft_reply("X", [{"part_no": "BAD-000", "quantity": 1}])
     assert result["ok"] is False
     assert result["draft"] is None
+
+def test_machine_model_is_matched_without_hyphen_and_case():
+    result = search_part_catalog("Ölfilter", machine_model="hpc300")
+    assert result["warning"] is None
+    assert top_part_no(result) == "HPC-FLT-131"
+
+
+def test_unknown_machine_model_gives_warning_and_no_filter():
+    result = search_part_catalog("Ölfilter", machine_model="XYZ-999")
+    assert "Unknown machine model" in result["warning"]
+    assert top_part_no(result) == "HPC-FLT-131"

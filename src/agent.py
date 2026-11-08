@@ -27,7 +27,7 @@ TOOLS = [
                 "properties": {
                     "query": {"type": "string", "description": "Part number or part name to search for."},
                     "machine_model": {
-                        "type": "string",
+                        "type": ["string", "null"],
                         "description": "Optional machine model to filter compatible parts, e.g. HPC-300.",
                     },
                 },

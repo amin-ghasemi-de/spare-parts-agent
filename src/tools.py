@@ -48,9 +48,16 @@ def _part_no_similarity(query: str, part_no: str) -> float:
 def search_part_catalog(query: str, machine_model: str | None = None, max_results: int = 5) -> dict:
     catalog = load_catalog()
 
+    warning = None
     if machine_model:
-        mask = catalog["compatible_models"].str.split(";").apply(lambda models: machine_model in models)
-        catalog = catalog[mask]
+        wanted = normalize_part_no(machine_model)
+        model_lists = catalog["compatible_models"].str.split(";")
+        known_models = {normalize_part_no(model) for models in model_lists for model in models}
+        if wanted in known_models:
+            mask = model_lists.apply(lambda models: wanted in [normalize_part_no(m) for m in models])
+            catalog = catalog[mask]
+        else:
+            warning = f"Unknown machine model '{machine_model}'. Results are not filtered by machine model."
 
     exact = catalog[catalog["part_no"].apply(normalize_part_no) == normalize_part_no(query)]
     if not exact.empty:
@@ -58,6 +65,7 @@ def search_part_catalog(query: str, machine_model: str | None = None, max_result
         return {
             "query": query,
             "machine_model": machine_model,
+            "warning": warning,
             "exact_part_no_match": True,
             "results": [_row_to_result(row, score=100)],
         }
@@ -77,6 +85,7 @@ def search_part_catalog(query: str, machine_model: str | None = None, max_result
     return {
         "query": query,
         "machine_model": machine_model,
+        "warning": warning,
         "exact_part_no_match": False,
         "results": results[:max_results],
     }
