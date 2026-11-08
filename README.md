@@ -29,7 +29,7 @@ This project shows how an **AI agent with tool calling** can do the repetitive p
 
 ![Inbox and case list](docs/screenshots/01-inbox.png)
 
-**Tool call trace** – the employee can see every tool the agent called and what it returned. Here the agent searched by part number, got no exact match, and searched again by part name.
+**Tool call trace** – the employee can see every tool the agent called, with its arguments. Each entry can be expanded to show the tool result. Below it, the reply draft can be edited before approval.
 
 ![Tool call trace and editable reply](docs/screenshots/03-tool-calls.png)
 ## Architecture
