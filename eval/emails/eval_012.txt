@@ -1,0 +1,10 @@
+Subject: Refueling nozzle H2D-NOZ-710
+From: James Carter <j.carter@hydrogen-logistics-uk.example>
+
+Dear spare parts team,
+
+we would like to order 1 refueling nozzle for our H2D-700 dispenser. According to our documentation the part number is H2D-NOZ-710.
+
+Best regards,
+James Carter
+Hydrogen Logistics UK

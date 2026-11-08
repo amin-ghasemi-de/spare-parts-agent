@@ -1,0 +1,438 @@
+[
+  {
+    "id": "001",
+    "file": "data/emails/email_001.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-300",
+    "urgency": [
+      "normal",
+      "low"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-SEA-110",
+        "quantity": 2
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Simple request with exact part number."
+  },
+  {
+    "id": "002",
+    "file": "data/emails/email_002.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "H2D-700",
+    "urgency": [
+      "high"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [
+      {
+        "part_no": "H2D-BRK-303",
+        "quantity": 1
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": true,
+    "note": "No part number, urgent, out of stock."
+  },
+  {
+    "id": "003",
+    "file": "data/emails/email_003.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "low"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-VLV-202",
+        "quantity": 1
+      }
+    ],
+    "must_ask": true,
+    "needs_attention": false,
+    "note": "Wrong part number HPC-VLV-220; correct part found by name, customer must confirm."
+  },
+  {
+    "id": "004",
+    "file": "data/emails/email_004.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-300",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "mixed"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-FLT-131",
+        "quantity": 4
+      },
+      {
+        "part_no": "HPC-FLT-130",
+        "quantity": 4
+      },
+      {
+        "part_no": "HPC-LUB-140",
+        "quantity": 2
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Three parts, mixed language."
+  },
+  {
+    "id": "005",
+    "file": "data/emails/email_005.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "H2D-350",
+    "urgency": [
+      "normal",
+      "high"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [],
+    "must_ask": true,
+    "needs_attention": false,
+    "note": "Ambiguous: check valve DN6 or DN10. Must not guess."
+  },
+  {
+    "id": "006",
+    "file": "data/emails/email_006.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "HPU-200",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPU-VLV-403",
+        "quantity": 1
+      },
+      {
+        "part_no": "HPU-SEA-404",
+        "quantity": 2
+      }
+    ],
+    "must_ask": null,
+    "needs_attention": false,
+    "note": "Valve quantity implicit ('das Ventil' = 1)."
+  },
+  {
+    "id": "007",
+    "file": "data/emails/email_007.txt",
+    "split": "dev",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-FLT-131",
+        "quantity": 10
+      },
+      {
+        "part_no": "HPC-SNS-150",
+        "quantity": 1
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Part number with spaces; one item out of stock, not urgent."
+  },
+  {
+    "id": "008",
+    "file": "eval/emails/eval_008.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-MEC-260",
+        "quantity": 3
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Same part name exists for HPC-300 and HPC-500; out of stock, not urgent."
+  },
+  {
+    "id": "009",
+    "file": "eval/emails/eval_009.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "high"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-SAF-270",
+        "quantity": 1
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Urgent but in stock: no attention flag."
+  },
+  {
+    "id": "010",
+    "file": "eval/emails/eval_010.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": null,
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "H2D-SEA-350",
+        "quantity": 5
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Exact part number, no machine model."
+  },
+  {
+    "id": "011",
+    "file": "eval/emails/eval_011.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-300",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [],
+    "must_ask": true,
+    "needs_attention": false,
+    "note": "Part not in catalog: must not offer a wrong part."
+  },
+  {
+    "id": "012",
+    "file": "eval/emails/eval_012.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "H2D-700",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [
+      {
+        "part_no": "H2D-NOZ-701",
+        "quantity": 1
+      }
+    ],
+    "must_ask": true,
+    "needs_attention": false,
+    "note": "Wrong part number H2D-NOZ-710; customer must confirm."
+  },
+  {
+    "id": "013",
+    "file": "eval/emails/eval_013.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "H2D-350",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "mixed"
+    ],
+    "expected_items": [
+      {
+        "part_no": "H2D-FLT-340",
+        "quantity": 2
+      },
+      {
+        "part_no": "H2D-SNS-330",
+        "quantity": 1
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Two parts, mixed language."
+  },
+  {
+    "id": "014",
+    "file": "eval/emails/eval_014.txt",
+    "split": "test",
+    "is_spare_part_request": false,
+    "note": "Event invitation, not a spare-part request."
+  },
+  {
+    "id": "015",
+    "file": "eval/emails/eval_015.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "H2D-700",
+    "urgency": [
+      "high"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "H2D-SNS-331",
+        "quantity": 1
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": true,
+    "note": "Urgent, station down, out of stock."
+  },
+  {
+    "id": "016",
+    "file": "eval/emails/eval_016.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-SEA-210",
+        "quantity": 3
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Partial stock: 1 available, 2 to order."
+  },
+  {
+    "id": "017",
+    "file": "eval/emails/eval_017.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": null,
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [],
+    "must_ask": true,
+    "needs_attention": false,
+    "note": "Suction valve exists for HPC-300 and HPC-500; machine model missing, must ask."
+  },
+  {
+    "id": "018",
+    "file": "eval/emails/eval_018.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-300",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-FLT-131",
+        "quantity": 2
+      },
+      {
+        "part_no": "HPC-FLT-130",
+        "quantity": 2
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Informal, typos, lower case, model written as 'hpc300'."
+  },
+  {
+    "id": "019",
+    "file": "eval/emails/eval_019.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPU-200",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "en"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPU-PMP-401",
+        "quantity": 1
+      }
+    ],
+    "must_ask": null,
+    "needs_attention": false,
+    "note": "Quantity implicit ('an axial piston pump' = 1); out of stock, not urgent."
+  },
+  {
+    "id": "020",
+    "file": "eval/emails/eval_020.txt",
+    "split": "test",
+    "is_spare_part_request": true,
+    "machine_model": "HPC-500",
+    "urgency": [
+      "normal"
+    ],
+    "language": [
+      "de"
+    ],
+    "expected_items": [
+      {
+        "part_no": "HPC-SNS-151",
+        "quantity": 4
+      }
+    ],
+    "must_ask": false,
+    "needs_attention": false,
+    "note": "Long e-mail with irrelevant maintenance history."
+  }
+]

@@ -1,0 +1,15 @@
+Subject: Wartung HPC-500 – Temperaturfühler
+From: Bernd Krause <b.krause@energiepark-west.example>
+
+Sehr geehrte Damen und Herren,
+
+im Rahmen unserer jährlichen Wartung haben wir an unseren Kompressoren HPC-500 die Ventile geprüft und die Dichtungen am Zylinderkopf bereits im Frühjahr erneuert. Die Maschinen laufen seitdem stabil, und auch die Öltemperatur ist unauffällig.
+
+Bei der letzten Kontrolle sind allerdings zwei Temperaturanzeigen ausgefallen. Wir möchten daher vorsorglich 4 Temperaturfühler PT100 bestellen, damit wir auch Ersatz auf Lager haben.
+
+Für Rückfragen stehe ich Ihnen gerne zur Verfügung.
+
+Mit freundlichen Grüßen
+Bernd Krause
+Instandhaltung
+Energiepark West GmbH

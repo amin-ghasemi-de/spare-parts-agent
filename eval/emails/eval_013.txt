@@ -1,0 +1,14 @@
+Subject: Ersatzteile Zapfsäule / spare parts dispenser
+From: Pieter de Vries <p.devries@waterstof-nl.example>
+
+Guten Tag,
+
+for our H2D-350 dispenser we need the following parts:
+
+- 2x Partikelfilter
+- 1x hydrogen gas detector
+
+Vielen Dank im Voraus.
+
+Pieter de Vries
+Waterstof NL B.V.
