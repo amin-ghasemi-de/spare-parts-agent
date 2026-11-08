@@ -3,7 +3,7 @@ import json
 from pydantic import ValidationError
 
 from src.config import LLM_MODEL
-from src.llm_client import get_client
+from src.llm_client import Usage, get_client
 from src.schemas import SparePartRequest
 
 SYSTEM_PROMPT = """You extract structured data from customer e-mails sent to the spare-parts service of an industrial equipment manufacturer.
@@ -19,7 +19,7 @@ Rules:
 """
 
 
-def extract_request(email_text: str) -> SparePartRequest:
+def extract_request(email_text: str, usage: Usage | None = None) -> SparePartRequest:
     schema = json.dumps(SparePartRequest.model_json_schema(), indent=2)
     client = get_client()
 
@@ -32,6 +32,9 @@ def extract_request(email_text: str) -> SparePartRequest:
         response_format={"type": "json_object"},
         temperature=0,
     )
+
+    if usage is not None:
+        usage.add(response)
 
     raw_json = response.choices[0].message.content
     try:

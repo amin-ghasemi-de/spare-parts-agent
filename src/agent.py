@@ -1,11 +1,12 @@
 import json
+import time
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from src.config import LLM_MODEL
 from src.extractor import extract_request
-from src.llm_client import get_client
+from src.llm_client import Usage, get_client
 from src.schemas import SparePartRequest
 from src.tools import check_stock, draft_reply, search_part_catalog
 
@@ -135,6 +136,8 @@ class AgentResult(BaseModel):
     draft: str | None = None
     summary: str | None = None
     steps_used: int = 0
+    usage: Usage = Field(default_factory=Usage)
+    duration_seconds: float = 0.0
     needs_attention: bool = False
     attention_reason: str | None = None
     status: Literal["finished", "not_a_request", "max_steps_reached"]
@@ -163,9 +166,16 @@ def _check_attention(result: AgentResult) -> None:
 
 
 def run_agent(email_text: str) -> AgentResult:
-    extraction = extract_request(email_text)
+    started = time.perf_counter()
+    usage = Usage()
+    extraction = extract_request(email_text, usage)
     if not extraction.is_spare_part_request:
-        return AgentResult(extraction=extraction, status="not_a_request")
+        return AgentResult(
+            extraction=extraction,
+            usage=usage,
+            duration_seconds=round(time.perf_counter() - started, 1),
+            status="not_a_request",
+        )
 
     client = get_client()
     messages = [
@@ -175,7 +185,7 @@ def run_agent(email_text: str) -> AgentResult:
             "content": f"E-mail:\n{email_text}\n\nExtracted data:\n{extraction.model_dump_json(indent=2)}",
         },
     ]
-    result = AgentResult(extraction=extraction, status="max_steps_reached")
+    result = AgentResult(extraction=extraction, usage=usage, status="max_steps_reached")
 
     for step in range(1, MAX_STEPS + 1):
         result.steps_used = step
@@ -186,6 +196,7 @@ def run_agent(email_text: str) -> AgentResult:
             tool_choice="auto",
             temperature=0,
         )
+        usage.add(response)
         message = response.choices[0].message
 
         if not message.tool_calls:
@@ -229,4 +240,5 @@ def run_agent(email_text: str) -> AgentResult:
                 }
             )
     _check_attention(result)
+    result.duration_seconds = round(time.perf_counter() - started, 1)
     return result

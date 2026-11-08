@@ -13,7 +13,13 @@ def main() -> None:
 
     result = run_agent(email_text)
 
-    print(f"=== {file_name} | status: {result.status} | steps: {result.steps_used} ===\n")
+    print(f"=== {file_name} | status: {result.status} | steps: {result.steps_used} ===")
+    usage = result.usage
+    print(
+        f"LLM calls: {usage.llm_calls} | tokens: {usage.total_tokens} "
+        f"(prompt {usage.prompt_tokens}, cached {usage.cached_tokens}, completion {usage.completion_tokens}) "
+        f"| time: {result.duration_seconds} s\n"
+    )
     if result.needs_attention:
         print(f"!!! ATTENTION: {result.attention_reason} !!!\n")
     print("--- Tool calls ---")
