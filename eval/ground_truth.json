@@ -12,6 +12,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-SEA-110",
@@ -34,6 +35,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "H2D-BRK-303",
@@ -56,6 +58,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-VLV-202",
@@ -78,6 +81,7 @@
     "language": [
       "mixed"
     ],
+    "requested_item_count": 3,
     "expected_items": [
       {
         "part_no": "HPC-FLT-131",
@@ -109,6 +113,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [],
     "must_ask": true,
     "needs_attention": false,
@@ -126,6 +131,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 2,
     "expected_items": [
       {
         "part_no": "HPU-VLV-403",
@@ -152,6 +158,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 2,
     "expected_items": [
       {
         "part_no": "HPC-FLT-131",
@@ -178,6 +185,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-MEC-260",
@@ -200,6 +208,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-SAF-270",
@@ -222,6 +231,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "H2D-SEA-350",
@@ -244,6 +254,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [],
     "must_ask": true,
     "needs_attention": false,
@@ -261,6 +272,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "H2D-NOZ-701",
@@ -283,6 +295,7 @@
     "language": [
       "mixed"
     ],
+    "requested_item_count": 2,
     "expected_items": [
       {
         "part_no": "H2D-FLT-340",
@@ -316,6 +329,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "H2D-SNS-331",
@@ -338,6 +352,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-SEA-210",
@@ -360,6 +375,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 1,
     "expected_items": [],
     "must_ask": true,
     "needs_attention": false,
@@ -377,6 +393,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 2,
     "expected_items": [
       {
         "part_no": "HPC-FLT-131",
@@ -403,6 +420,7 @@
     "language": [
       "en"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPU-PMP-401",
@@ -425,6 +443,7 @@
     "language": [
       "de"
     ],
+    "requested_item_count": 1,
     "expected_items": [
       {
         "part_no": "HPC-SNS-151",
