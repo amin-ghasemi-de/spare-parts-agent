@@ -14,6 +14,8 @@ def main() -> None:
     result = run_agent(email_text)
 
     print(f"=== {file_name} | status: {result.status} | steps: {result.steps_used} ===\n")
+    if result.needs_attention:
+        print(f"!!! ATTENTION: {result.attention_reason} !!!\n")
     print("--- Tool calls ---")
     for number, record in enumerate(result.trace, start=1):
         print(f"{number}. {record.tool}({json.dumps(record.arguments, ensure_ascii=False)})")

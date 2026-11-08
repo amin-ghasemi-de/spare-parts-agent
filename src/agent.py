@@ -97,18 +97,30 @@ SYSTEM_PROMPT = """You are the spare-parts assistant of an industrial equipment 
 You receive a customer e-mail and the data that was already extracted from it.
 
 Your job:
-1. Identify every requested part in the catalog with search_part_catalog.
+1. For every requested item, find the part with search_part_catalog.
+   Always pass machine_model if it is known.
    - If a part number is given, search for it first.
-   - If it is not an exact match, or no number is given, search by the part name and use the machine model.
+   - If exact_part_no_match is false, you MUST run a second search with the part name
+     and the machine model. Never choose a part based only on a part-number search.
 2. If several parts fit equally well and the e-mail does not say which one, do NOT guess.
-   Leave that part out of the offer and ask the customer in open_questions.
-3. Call check_stock for every identified part.
-4. Call draft_reply exactly once. Use language "en" if the e-mail is in English, otherwise "de".
-5. After draft_reply, answer with a short summary for the employee (2-3 sentences, English):
-   what you identified, what is unclear, and anything the employee should check.
+   Leave that part out of the offer and ask the customer in open_questions which option they need.
+3. If the part you identified has a different part number than the one the customer wrote,
+   still offer it, but add an open question asking the customer to confirm it.
+   Mention both part numbers in that question.
+4. Call check_stock for every identified part.
+5. Call draft_reply exactly once. Use language "en" if the e-mail is in English, otherwise "de".
+6. After draft_reply, answer with a short summary for the employee (2-4 sentences, English):
+   what you identified, what is unclear, and what the employee should check.
+   Report stock numbers exactly as check_stock returned them.
+   Do not repeat the draft in the summary.
+
+Rules for open_questions:
+- Only ask for information you really need from the customer.
+- Keep each question short. Do not repeat prices, stock or delivery times; the offer already shows them.
+- Never mention stock quantities to the customer.
+- Never promise anything (e.g. faster delivery or alternatives). The employee decides about that.
 
 Never invent part numbers, prices or delivery times. Only use what the tools return."""
-
 
 class ToolCallRecord(BaseModel):
     tool: str
@@ -122,6 +134,8 @@ class AgentResult(BaseModel):
     draft: str | None = None
     summary: str | None = None
     steps_used: int = 0
+    needs_attention: bool = False
+    attention_reason: str | None = None
     status: Literal["finished", "not_a_request", "max_steps_reached"]
 
 
@@ -133,6 +147,18 @@ def _run_tool(name: str, arguments: dict) -> dict:
         return function(**arguments)
     except Exception as error:
         return {"error": f"{type(error).__name__}: {error}"}
+
+def _check_attention(result: AgentResult) -> None:
+    if result.extraction.urgency != "high":
+        return
+    missing = [
+        record.result["part_no"]
+        for record in result.trace
+        if record.tool == "check_stock" and record.result.get("found") and not record.result["fully_available"]
+    ]
+    if missing:
+        result.needs_attention = True
+        result.attention_reason = f"Urgent request, but not fully in stock: {', '.join(sorted(set(missing)))}"
 
 
 def run_agent(email_text: str) -> AgentResult:
@@ -201,5 +227,5 @@ def run_agent(email_text: str) -> AgentResult:
                     "content": json.dumps(tool_result, ensure_ascii=False),
                 }
             )
-
+    _check_attention(result)
     return result
