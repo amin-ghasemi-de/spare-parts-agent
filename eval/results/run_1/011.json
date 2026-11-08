@@ -1,0 +1,113 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Druckluft Süd GmbH",
+    "contact_name": "Ingrid Hoffmann",
+    "contact_email": "i.hoffmann@druckluft-sued.example",
+    "machine_model": "HPC-300",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Kühlwasserpumpe",
+        "quantity": null
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Kühlwasserpumpe"
+      },
+      "result": {
+        "query": "Kühlwasserpumpe",
+        "machine_model": "HPC-300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "cooling water pump"
+      },
+      "result": {
+        "query": "cooling water pump",
+        "machine_model": "HPC-300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Pumpe"
+      },
+      "result": {
+        "query": "Pumpe",
+        "machine_model": "HPC-300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "query": "Kühlwasserpumpe"
+      },
+      "result": {
+        "query": "Kühlwasserpumpe",
+        "machine_model": null,
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Kühlwasserpumpe HPC-300"
+      },
+      "result": {
+        "query": "Kühlwasserpumpe HPC-300",
+        "machine_model": "HPC-300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Ingrid Hoffmann",
+        "items": [],
+        "language": "de",
+        "open_questions": [
+          "Können Sie uns die genaue Teilenummer oder weitere Details (z. B. Hersteller, Baujahr, Kennzeichnung) der defekten Kühlwasserpumpe mitteilen?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Können Sie uns die genaue Teilenummer oder weitere Details (z. B. Hersteller, Baujahr, Kennzeichnung) der defekten Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Können Sie uns die genaue Teilenummer oder weitere Details (z. B. Hersteller, Baujahr, Kennzeichnung) der defekten Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply to the customer**\n\nGuten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Können Sie uns die genaue Teilenummer oder weitere Details (z. B. Hersteller, Baujahr, Kennzeichnung) der defekten Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n---\n\n**Summary for the employee**  \nNo matching part was found for “Kühlwasserpumpe” on the HPC‑300. I asked the customer for the exact part number or additional details to identify the correct pump. Once we receive that information we can search again, check stock, and prepare the offer.",
+  "steps_used": 7,
+  "usage": {
+    "llm_calls": 8,
+    "prompt_tokens": 9316,
+    "completion_tokens": 1096,
+    "cached_tokens": 3072
+  },
+  "duration_seconds": 49.1,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

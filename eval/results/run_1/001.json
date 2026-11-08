@@ -1,0 +1,94 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Kraus Energietechnik GmbH",
+    "contact_name": "Markus Weber",
+    "contact_email": "m.weber@kraus-energietechnik.example",
+    "machine_model": "HPC-300",
+    "urgency": "low",
+    "language": "de",
+    "items": [
+      {
+        "part_no": "HPC-SEA-110",
+        "description": "Kolbenringsatz",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "HPC-SEA-110"
+      },
+      "result": {
+        "query": "HPC-SEA-110",
+        "machine_model": "HPC-300",
+        "exact_part_no_match": true,
+        "results": [
+          {
+            "part_no": "HPC-SEA-110",
+            "name_de": "Kolbenringsatz",
+            "name_en": "Piston ring set",
+            "compatible_models": [
+              "HPC-300"
+            ],
+            "unit_price_eur": 185.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-SEA-110",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "HPC-SEA-110",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 12,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Markus Weber",
+        "items": [
+          {
+            "part_no": "HPC-SEA-110",
+            "quantity": 2
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Markus Weber,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Kolbenringsatz (HPC-SEA-110), 2 Stk., 185,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Markus Weber,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Kolbenringsatz (HPC-SEA-110), 2 Stk., 185,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee:**  \nI identified the requested part HPC‑SEA‑110 (Kolbenringsatz) for the HPC‑300 machine and confirmed it is an exact part‑number match. Stock check shows 12 units available, fully covering the requested quantity of 2, with delivery in about 2 working days. No open questions remain; you can proceed with the offer.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5925,
+    "completion_tokens": 746,
+    "cached_tokens": 2304
+  },
+  "duration_seconds": 3.1,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

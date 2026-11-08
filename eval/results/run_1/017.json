@@ -1,0 +1,102 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Gulf Compression Services",
+    "contact_name": "Ahmed Hassan",
+    "contact_email": "a.hassan@gulf-compression.example",
+    "machine_model": null,
+    "urgency": "normal",
+    "language": "en",
+    "items": [
+      {
+        "part_no": null,
+        "description": "complete suction valve assembly",
+        "quantity": 1
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "query": "complete suction valve assembly"
+      },
+      "result": {
+        "query": "complete suction valve assembly",
+        "machine_model": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-VLV-101",
+            "name_de": "Saugventil komplett",
+            "name_en": "Suction valve assembly",
+            "compatible_models": [
+              "HPC-300"
+            ],
+            "unit_price_eur": 420.0,
+            "score": 83
+          },
+          {
+            "part_no": "HPC-VLV-201",
+            "name_de": "Saugventil komplett",
+            "name_en": "Suction valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 540.0,
+            "score": 83
+          },
+          {
+            "part_no": "HPC-VLV-102",
+            "name_de": "Druckventil komplett",
+            "name_en": "Discharge valve assembly",
+            "compatible_models": [
+              "HPC-300"
+            ],
+            "unit_price_eur": 465.0,
+            "score": 64
+          },
+          {
+            "part_no": "HPC-VLV-202",
+            "name_de": "Druckventil komplett",
+            "name_en": "Discharge valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 590.0,
+            "score": 64
+          }
+        ]
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Ahmed Hassan",
+        "items": [],
+        "language": "en",
+        "open_questions": [
+          "Could you please specify the compressor model (e.g., HPC-300 or HPC-500) for which you need the suction valve assembly?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Dear Ahmed Hassan,\n\nthank you for your request.\n\nTo process your request, we still need the following information:\n- Could you please specify the compressor model (e.g., HPC-300 or HPC-500) for which you need the suction valve assembly?\n\nBest regards\nYour Spare Parts Service"
+      }
+    }
+  ],
+  "draft": "Dear Ahmed Hassan,\n\nthank you for your request.\n\nTo process your request, we still need the following information:\n- Could you please specify the compressor model (e.g., HPC-300 or HPC-500) for which you need the suction valve assembly?\n\nBest regards\nYour Spare Parts Service",
+  "summary": "**Draft reply:**  \nDear Ahmed Hassan,\n\nthank you for your request.\n\nTo process your request, we still need the following information:  \n- Could you please specify the compressor model (e.g., HPC‑300 or HPC‑500) for which you need the suction valve assembly?\n\nBest regards  \nYour Spare Parts Service  \n\n**Summary for the employee:**  \nThe customer wants a complete suction‑valve assembly but did not specify the compressor model, and the catalog returned two compatible parts (HPC‑VLV‑101 for HPC‑300 and HPC‑VLV‑201 for HPC‑500). No stock check was performed because the exact part cannot be identified yet. Ask the customer for the machine model to determine the correct part.",
+  "steps_used": 3,
+  "usage": {
+    "llm_calls": 4,
+    "prompt_tokens": 4524,
+    "completion_tokens": 925,
+    "cached_tokens": 2048
+  },
+  "duration_seconds": 14.0,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

@@ -1,0 +1,140 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Bergbau-Technik Ruhr GmbH",
+    "contact_name": "Jörg Lehmann",
+    "contact_email": "lehmann@bergbau-technik-ruhr.example",
+    "machine_model": "HPC-500",
+    "urgency": "low",
+    "language": "de",
+    "items": [
+      {
+        "part_no": "HPC-VLV-220",
+        "description": "Druckventil (komplett)",
+        "quantity": 1
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "HPC-VLV-220"
+      },
+      "result": {
+        "query": "HPC-VLV-220",
+        "machine_model": "HPC-500",
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-VLV-201",
+            "name_de": "Saugventil komplett",
+            "name_en": "Suction valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 540.0,
+            "score": 89
+          },
+          {
+            "part_no": "HPC-VLV-202",
+            "name_de": "Druckventil komplett",
+            "name_en": "Discharge valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 590.0,
+            "score": 89
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "Druckventil komplett"
+      },
+      "result": {
+        "query": "Druckventil komplett",
+        "machine_model": "HPC-500",
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-VLV-202",
+            "name_de": "Druckventil komplett",
+            "name_en": "Discharge valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 590.0,
+            "score": 100
+          },
+          {
+            "part_no": "HPC-VLV-201",
+            "name_de": "Saugventil komplett",
+            "name_en": "Suction valve assembly",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 540.0,
+            "score": 83
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-VLV-202",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "HPC-VLV-202",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 2,
+        "fully_available": true,
+        "qty_from_stock": 1,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Jörg Lehmann",
+        "items": [
+          {
+            "part_no": "HPC-VLV-202",
+            "quantity": 1
+          }
+        ],
+        "language": "de",
+        "open_questions": [
+          "Bitte bestätigen Sie, ob das gesuchte Druckventil die Teilenummer HPC-VLV-202 (statt HPC-VLV-220) hat."
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Jörg Lehmann,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Druckventil komplett (HPC-VLV-202), 1 Stk., 590,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Bitte bestätigen Sie, ob das gesuchte Druckventil die Teilenummer HPC-VLV-202 (statt HPC-VLV-220) hat.\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Jörg Lehmann,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Druckventil komplett (HPC-VLV-202), 1 Stk., 590,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Bitte bestätigen Sie, ob das gesuchte Druckventil die Teilenummer HPC-VLV-202 (statt HPC-VLV-220) hat.\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee:**  \nI identified the part as HPC‑VLV‑202 (Discharge valve assembly) for the HPC‑500, with 1 unit in stock and a delivery time of 2 working days. The customer originally requested part HPC‑VLV‑220, which was not found; I asked them to confirm whether HPC‑VLV‑202 is the correct part. No other parts were offered. Please review the suggested offer and the confirmation question before sending.",
+  "steps_used": 5,
+  "usage": {
+    "llm_calls": 6,
+    "prompt_tokens": 7799,
+    "completion_tokens": 1194,
+    "cached_tokens": 2816
+  },
+  "duration_seconds": 42.0,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

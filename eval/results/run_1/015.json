@@ -1,0 +1,3 @@
+{
+  "error": "BadRequestError: Error code: 400 - Tool call validation failed: tool call validation failed: parameters for tool search_part_catalog did not match schema: errors: [`/machine_model`: expected string, but got null]"
+}

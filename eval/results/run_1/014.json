@@ -1,0 +1,26 @@
+{
+  "extraction": {
+    "is_spare_part_request": false,
+    "customer_company": "Fluidtechnik Partner GmbH",
+    "contact_name": "Sabine Wolf",
+    "contact_email": "events@fluidtechnik-partner.example",
+    "machine_model": null,
+    "urgency": "normal",
+    "language": "de",
+    "items": []
+  },
+  "trace": [],
+  "draft": null,
+  "summary": null,
+  "steps_used": 0,
+  "usage": {
+    "llm_calls": 1,
+    "prompt_tokens": 1068,
+    "completion_tokens": 223,
+    "cached_tokens": 0
+  },
+  "duration_seconds": 0.8,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "not_a_request"
+}

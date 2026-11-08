@@ -1,0 +1,106 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": null,
+    "contact_name": "Jens Möller",
+    "contact_email": "jens.moeller@landtechnik-moeller.example",
+    "machine_model": "hpc300",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "ölfiltr",
+        "quantity": 2
+      },
+      {
+        "part_no": null,
+        "description": "ansaugfiltr",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "ölfiltr"
+      },
+      "result": {
+        "query": "ölfiltr",
+        "machine_model": "hpc300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "oil filter"
+      },
+      "result": {
+        "query": "oil filter",
+        "machine_model": "hpc300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "Ansaugfilter"
+      },
+      "result": {
+        "query": "Ansaugfilter",
+        "machine_model": "hpc300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "intake filter"
+      },
+      "result": {
+        "query": "intake filter",
+        "machine_model": "hpc300",
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Jens Möller",
+        "items": [],
+        "language": "de",
+        "open_questions": [
+          "Könnten Sie uns bitte die genauen Teilenummern für das Ölfilter und das Ansaugfilter mitteilen?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Jens Möller,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genauen Teilenummern für das Ölfilter und das Ansaugfilter mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Jens Möller,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genauen Teilenummern für das Ölfilter und das Ansaugfilter mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply**\n\nGuten Tag Jens Möller,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genauen Teilenummern für das Ölfilter und das Ansaugfilter mitteilen?\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n**Summary for the employee**  \nI could not find any matching parts for “ölfiltr” or “ansaugfiltr” for the HPC‑300 model, so no items were added to the offer. I asked the customer to provide the exact part numbers. No stock information is available yet. Please await the customer’s clarification before proceeding.",
+  "steps_used": 6,
+  "usage": {
+    "llm_calls": 7,
+    "prompt_tokens": 7785,
+    "completion_tokens": 1175,
+    "cached_tokens": 3840
+  },
+  "duration_seconds": 29.9,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

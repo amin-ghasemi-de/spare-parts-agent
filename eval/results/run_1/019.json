@@ -1,0 +1,96 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Nordic Mining Services",
+    "contact_name": "Olga Petrova",
+    "contact_email": "o.petrova@nordic-mining.example",
+    "machine_model": "HPU-200",
+    "urgency": "normal",
+    "language": "en",
+    "items": [
+      {
+        "part_no": null,
+        "description": "axial piston pump",
+        "quantity": null
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPU-200",
+        "query": "axial piston pump"
+      },
+      "result": {
+        "query": "axial piston pump",
+        "machine_model": "HPU-200",
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPU-PMP-401",
+            "name_de": "Axialkolbenpumpe",
+            "name_en": "Axial piston pump",
+            "compatible_models": [
+              "HPU-200"
+            ],
+            "unit_price_eur": 2780.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPU-PMP-401",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "HPU-PMP-401",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 0,
+        "fully_available": false,
+        "qty_from_stock": 0,
+        "qty_to_order": 1,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": 32
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Olga Petrova",
+        "items": [
+          {
+            "part_no": "HPU-PMP-401",
+            "quantity": 1
+          }
+        ],
+        "language": "en",
+        "open_questions": [
+          "Could you please confirm the required quantity for the axial piston pump?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Dear Olga Petrova,\n\nthank you for your request.\n\nWe are pleased to offer the following items:\n\n1. Axial piston pump (HPU-PMP-401), qty 1, 2,780.00 EUR/pc, currently out of stock, lead time approx. 32 working days\n\nTo process your request, we still need the following information:\n- Could you please confirm the required quantity for the axial piston pump?\n\nAll prices are net, plus VAT.\n\nBest regards\nYour Spare Parts Service"
+      }
+    }
+  ],
+  "draft": "Dear Olga Petrova,\n\nthank you for your request.\n\nWe are pleased to offer the following items:\n\n1. Axial piston pump (HPU-PMP-401), qty 1, 2,780.00 EUR/pc, currently out of stock, lead time approx. 32 working days\n\nTo process your request, we still need the following information:\n- Could you please confirm the required quantity for the axial piston pump?\n\nAll prices are net, plus VAT.\n\nBest regards\nYour Spare Parts Service",
+  "summary": "**Draft reply to the customer**\n\nDear Olga Petrova,\n\nthank you for your request.\n\nWe are pleased to offer the following item:\n\n1. Axial piston pump (HPU‑PMP‑401), qty 1, €2 780.00 /pc, currently out of stock, lead time approx. 32 working days.\n\nTo process your request, we still need the following information:\n- Could you please confirm the required quantity for the axial piston pump?\n\nAll prices are net, plus VAT.\n\nBest regards  \nYour Spare Parts Service  \n\n---\n\n**Summary for the employee**  \nI identified the axial piston pump for the HPU‑200 as part HPU‑PMP‑401. Stock check shows 0 units on hand, with a total delivery time of about 32 working days for the ordered quantity. The customer did not specify the required quantity, so I asked for confirmation. Please verify the quantity and confirm the offer before sending.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5632,
+    "completion_tokens": 1351,
+    "cached_tokens": 2048
+  },
+  "duration_seconds": 27.0,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

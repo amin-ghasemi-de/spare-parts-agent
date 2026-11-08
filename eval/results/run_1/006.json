@@ -1,0 +1,143 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Kohle & Erz Service GmbH",
+    "contact_name": "Stefan Krüger",
+    "contact_email": "s.krueger@kohle-und-erz.example",
+    "machine_model": "HPU-200",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Druckbegrenzungsventil",
+        "quantity": null
+      },
+      {
+        "part_no": null,
+        "description": "Dichtungssatz für die Hydraulikzylinder",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPU-200",
+        "query": "Druckbegrenzungsventil"
+      },
+      "result": {
+        "query": "Druckbegrenzungsventil",
+        "machine_model": "HPU-200",
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPU-VLV-403",
+            "name_de": "Druckbegrenzungsventil",
+            "name_en": "Pressure relief valve",
+            "compatible_models": [
+              "HPU-200"
+            ],
+            "unit_price_eur": 320.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPU-200",
+        "query": "Dichtungssatz für die Hydraulikzylinder"
+      },
+      "result": {
+        "query": "Dichtungssatz für die Hydraulikzylinder",
+        "machine_model": "HPU-200",
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPU-SEA-404",
+            "name_de": "Dichtungssatz Hydraulikzylinder",
+            "name_en": "Hydraulic cylinder seal kit",
+            "compatible_models": [
+              "HPU-200"
+            ],
+            "unit_price_eur": 88.0,
+            "score": 60
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPU-VLV-403",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "HPU-VLV-403",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 3,
+        "fully_available": true,
+        "qty_from_stock": 1,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPU-SEA-404",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "HPU-SEA-404",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 7,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Stefan Krüger",
+        "items": [
+          {
+            "part_no": "HPU-SEA-404",
+            "quantity": 2
+          }
+        ],
+        "language": "de",
+        "open_questions": [
+          "Wie viele Druckbegrenzungsventile benötigen Sie?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Stefan Krüger,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Dichtungssatz Hydraulikzylinder (HPU-SEA-404), 2 Stk., 88,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Wie viele Druckbegrenzungsventile benötigen Sie?\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Stefan Krüger,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Dichtungssatz Hydraulikzylinder (HPU-SEA-404), 2 Stk., 88,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Wie viele Druckbegrenzungsventile benötigen Sie?\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply:**  \nGuten Tag Stefan Krüger,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Position an:\n\n1. Dichtungssatz Hydraulikzylinder (HPU-SEA-404), 2 Stk., 88,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen  \n\nFür die weitere Bearbeitung benötigen wir noch folgende Angabe:  \n- Wie viele Druckbegrenzungsventile benötigen Sie?\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n**Summary for the employee:**  \nI identified the hydraulic cylinder seal kit (HPU-SEA-404) with stock of 7 units, fully available, delivery in 2 days. The pressure‑relief valve was found (HPU-VLV-403) but the required quantity is unknown, so I asked the customer how many they need. No other ambiguities remain.",
+  "steps_used": 6,
+  "usage": {
+    "llm_calls": 7,
+    "prompt_tokens": 9226,
+    "completion_tokens": 2046,
+    "cached_tokens": 3840
+  },
+  "duration_seconds": 53.7,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}
