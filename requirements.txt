@@ -3,3 +3,6 @@ python-dotenv
 pandas
 pydantic
 pytest
+fastapi
+uvicorn
+httpx
