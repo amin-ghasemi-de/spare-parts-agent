@@ -32,10 +32,33 @@ def test_health(client):
     assert client.get("/api/health").json() == {"status": "ok"}
 
 
-def test_sample_emails_are_listed(client):
-    emails = client.get("/api/sample-emails").json()
-    assert len(emails) == 5
+def test_inbox_lists_unprocessed_emails(client):
+    emails = client.get("/api/inbox").json()
+    assert len(emails) >= 5
     assert emails[0]["name"] == "email_001.txt"
+    assert emails[0]["sender"].startswith("Markus Weber")
+
+
+def test_processed_inbox_email_leaves_the_inbox(client):
+    before = len(client.get("/api/inbox").json())
+    response = client.post("/api/inbox/email_001.txt/process")
+    assert response.status_code == 200
+    assert response.json()["source"] == "email_001.txt"
+
+    names = [email["name"] for email in client.get("/api/inbox").json()]
+    assert "email_001.txt" not in names
+    assert len(names) == before - 1
+
+
+def test_inbox_email_cannot_be_processed_twice(client):
+    client.post("/api/inbox/email_001.txt/process")
+    response = client.post("/api/inbox/email_001.txt/process")
+    assert response.status_code == 409
+
+
+def test_unknown_inbox_email_returns_404(client):
+    assert client.post("/api/inbox/does_not_exist.txt/process").status_code == 404
+    assert client.post("/api/inbox/secret.env/process").status_code == 404
 
 
 def test_new_case_waits_for_review(client):

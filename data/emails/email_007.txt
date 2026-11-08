@@ -1,0 +1,10 @@
+Subject: Order request - oil filters
+From: Lukas Brandt <lukas.brandt@hydrogen-hub-nord.example>
+
+Hi,
+
+please send us 10 pcs of HPC FLT 131 (oil filter) for our HPC-500 compressors. We also need 1 pressure transmitter for the same machine.
+
+Thanks,
+Lukas Brandt
+Hydrogen Hub Nord

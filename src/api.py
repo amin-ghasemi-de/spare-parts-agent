@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -8,6 +11,7 @@ from src.config import PROJECT_ROOT
 
 EMAIL_DIR = PROJECT_ROOT / "data" / "emails"
 FRONTEND_DIR = PROJECT_ROOT / "frontend" / "dist"
+INBOX_NAME_PATTERN = re.compile(r"[\w\-]+\.txt")
 
 app = FastAPI(title="Spare-Parts Request Agent")
 
@@ -25,28 +29,63 @@ class RejectRequest(BaseModel):
     note: str | None = None
 
 
+def _read_inbox_email(path: Path) -> dict:
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    subject = lines[0].removeprefix("Subject:").strip() if lines else path.name
+    sender = next((line.removeprefix("From:").strip() for line in lines if line.startswith("From:")), None)
+    return {"name": path.name, "subject": subject, "sender": sender, "text": text}
+
+
+def _processed_emails() -> tuple[set[str], set[str]]:
+    cases = list_cases()
+    sources = {case.source for case in cases if case.source}
+    texts = {case.email_text.strip() for case in cases}
+    return sources, texts
+
+
+def _run_and_create_case(email_text: str, source: str | None = None) -> Case:
+    try:
+        result = run_agent(email_text)
+    except Exception as error:
+        raise HTTPException(status_code=502, detail=f"Agent failed: {error}") from error
+    return create_case(email_text, result, source=source)
+
+
 @app.get("/api/health")
 def health() -> dict:
     return {"status": "ok"}
 
 
-@app.get("/api/sample-emails")
-def sample_emails() -> list[dict]:
+@app.get("/api/inbox")
+def inbox() -> list[dict]:
+    sources, texts = _processed_emails()
     emails = []
     for path in sorted(EMAIL_DIR.glob("*.txt")):
-        text = path.read_text(encoding="utf-8")
-        subject = text.splitlines()[0].removeprefix("Subject:").strip()
-        emails.append({"name": path.name, "subject": subject, "text": text})
+        email = _read_inbox_email(path)
+        if path.name in sources or email["text"].strip() in texts:
+            continue
+        emails.append(email)
     return emails
+
+
+@app.post("/api/inbox/{name}/process")
+def process_inbox_email(name: str) -> Case:
+    path = EMAIL_DIR / name
+    if not INBOX_NAME_PATTERN.fullmatch(name) or not path.exists():
+        raise HTTPException(status_code=404, detail="E-mail not found")
+
+    email_text = path.read_text(encoding="utf-8")
+    sources, texts = _processed_emails()
+    if name in sources or email_text.strip() in texts:
+        raise HTTPException(status_code=409, detail="E-mail was already processed")
+
+    return _run_and_create_case(email_text, source=name)
 
 
 @app.post("/api/cases")
 def process_email(request: ProcessRequest) -> Case:
-    try:
-        result = run_agent(request.email_text)
-    except Exception as error:
-        raise HTTPException(status_code=502, detail=f"Agent failed: {error}") from error
-    return create_case(request.email_text, result)
+    return _run_and_create_case(request.email_text)
 
 
 @app.get("/api/cases")

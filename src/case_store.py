@@ -16,6 +16,7 @@ class Case(BaseModel):
     id: str
     created_at: str
     email_text: str
+    source: str | None = None
     result: AgentResult
     status: Literal["pending_review", "approved", "rejected"] = "pending_review"
     final_reply: str | None = None
@@ -33,8 +34,14 @@ def save_case(case: Case) -> None:
     (CASES_DIR / f"{case.id}.json").write_text(case.model_dump_json(indent=2), encoding="utf-8")
 
 
-def create_case(email_text: str, result: AgentResult) -> Case:
-    case = Case(id=uuid.uuid4().hex[:8], created_at=_now(), email_text=email_text, result=result)
+def create_case(email_text: str, result: AgentResult, source: str | None = None) -> Case:
+    case = Case(
+        id=uuid.uuid4().hex[:8],
+        created_at=_now(),
+        email_text=email_text,
+        source=source,
+        result=result,
+    )
     save_case(case)
     return case
 
