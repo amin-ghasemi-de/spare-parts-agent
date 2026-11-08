@@ -172,13 +172,54 @@ To reset the demo, delete the `storage/` folder — all e-mails return to the in
 
 ## Evaluation
 
-🚧 **In progress.** A test set of about 25 e-mails with known correct answers is being built. Each e-mail will be run several times to measure:
+The agent is evaluated on **20 synthetic e-mails** with hand-written correct answers (`eval/ground_truth.json`):
 
-- extraction accuracy per field
-- correct part matching
-- correct behaviour in ambiguous cases (ask instead of guess)
+- **7 dev e-mails** (`data/emails/`) – used while developing and tuning the prompt
+- **13 held-out e-mails** (`eval/emails/`) – written after prompt development and never used for tuning
 
-Results will be added here. Until then, the agent has only been checked manually on the sample e-mails.
+Each run executes the full pipeline (extraction + agent loop) on every e-mail. Scoring is automatic (`src/evaluation.py`). The offer is read from the arguments of the last `draft_reply` tool call, not from the free text of the reply.
+
+### Results – run 1 (before fixes)
+
+| Metric | dev | held-out | all |
+|---|---|---|---|
+| E-mails | 7 | 13 | 20 |
+| Errors | 0 | 1 | 1 |
+| Spare-part request detected correctly | 7/7 | 12/12 | 19/19 |
+| Machine model, urgency, language, number of items extracted | 7/7 | 11/11 | 18/18 |
+| Expected parts found | 9/10 | 9/11 | 18/21 |
+| **Wrong parts offered** | **0** | **0** | **0** |
+| Offer exactly right (all parts, correct quantities, nothing extra) | 6/7 | 10/11 | 16/18 |
+| Asked the customer when needed, and only then | 6/6 | 9/10 | 15/16 |
+| Urgency warning correct | 7/7 | 11/11 | 18/18 |
+| Avg tokens per e-mail | 9,118 | 7,138 | 7,867 |
+| Avg LLM calls per e-mail | 6.0 | 5.2 | 5.5 |
+
+### What went wrong – and what was fixed
+
+| E-mail | What happened | Cause | Status |
+|---|---|---|---|
+| 018 | No offer, unnecessary question | The search tool compared the machine model exactly: `hpc300` ≠ `HPC-300`, so every search returned nothing | **Fixed:** model names are normalized; unknown models return a warning instead of an empty list |
+| 015 | Error | The LLM sent `machine_model: null`, but the tool schema only allowed a string, so the API rejected the call | **Fixed:** schema allows `null` |
+| 006 | Valve left out, customer asked for quantity | Quantity was only implicit ("das Ventil"). The agent found the valve and checked stock, but then chose to ask | **Not fixed:** the same pattern appears in held-out e-mail 019. Changing the prompt now would leak test information. An earlier manual run offered quantity 1 → non-deterministic |
+
+Run 2 (after the fixes) is pending.
+
+### How to read these numbers
+
+- **Small sample:** 18 scored e-mails and one run. Each e-mail moves a percentage by about 5 points, so the results are shown as counts.
+- **Dev vs. held-out:** dev scored slightly worse here. With this sample size the difference is noise.
+- **All failures were omissions.** No wrong part was offered in any e-mail – in a spare-parts process, a missing line is much cheaper than a wrong delivery.
+- **Time:** the average run took 28 s, but this includes waiting for the free-tier rate limit (8,000 tokens per minute). A single simple e-mail takes about 3 s.
+
+Reproduce:
+
+```powershell
+python -m scripts.run_eval --run 1
+python -m scripts.eval_report
+```
+
+Full report: [`eval/results/report.md`](eval/results/report.md)
 
 ## Known limitations
 
@@ -186,6 +227,9 @@ Results will be added here. Until then, the agent has only been checked manually
 - **Non-deterministic LLM** – the same e-mail can produce differently worded questions and summaries, even at temperature 0.
 - **Summary for the employee** is written by the LLM and sometimes misreports stock numbers. The tool call trace in the UI always shows the correct values.
 - **Quantity is required** by `draft_reply`; if the customer gives none, the agent has to assume one.
+- - **Implicit quantities** ("the valve", "a pump") are handled inconsistently: sometimes the agent offers 1, sometimes it asks.
+- **The summary for the employee often repeats the full draft**, although the prompt says not to.
+- **Cost grows with every agent step**, because each step sends the whole conversation again (simple e-mail: about 6,700 tokens; three parts: about 13,800 tokens).
 - **No delivery address** is extracted.
 - **Reply languages:** German and English only.
 - **Storage:** cases are JSON files, not a database. No users or authentication yet.
@@ -193,7 +237,8 @@ Results will be added here. Until then, the agent has only been checked manually
 
 ## Roadmap
 
-- [ ] Evaluation set and metrics
+- [x] Evaluation set (20 e-mails) and first run
+- [ ] Run 2 after fixes, repeated runs to measure consistency
 - [ ] n8n workflow: real mailbox trigger → this API → approval → send
 - [ ] Online demo on Azure App Service
 - [ ] Database instead of JSON files
