@@ -1,0 +1,175 @@
+{
+  "name": "Spare-Parts: Send approved replies",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fae1d79b-46c3-4fe5-9a85-6f237df3ca69",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:8000/api/outbox",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "02bbdc1a-32ba-4059-acb2-87dab2d77c69",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "7fef25b7-44e3-4e67-af3f-95d162743ee9",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "519d752c-76d9-44af-98a6-5328f97ed26d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "fromEmail": "agent-mailbox@example.com",
+        "toEmail": "={{ $json.reply_to }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "= {{ $json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "0d44b258-f30d-4238-9b17-fe6d454ef582",
+      "name": "Send an Email",
+      "webhookId": "5d6ab301-98dc-49aa-8fe4-0877c10682b4",
+      "credentials": {
+        "smtp": {
+          "id": "LwFZz2PstMR7TRos",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://127.0.0.1:8000/api/cases/{{ $('Filter').item.json.id }}/mark-sent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        0
+      ],
+      "id": "8461d1a5-103f-48df-9bff-6a7387cfa226",
+      "name": "HTTP Request1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3745d98f-c484-4d5f-a763-cdd64c50fee3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0611ddd75a719cc8e16fa7ecf27ff955b2e821633ce5cd63109722a53239b7"
+  },
+  "nodeGroups": [],
+  "id": "HQHKs5SepLnLm9GM",
+  "tags": []
+}

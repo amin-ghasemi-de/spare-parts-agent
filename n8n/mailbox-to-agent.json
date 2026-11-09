@@ -1,0 +1,170 @@
+{
+  "name": "Spare-Parts: Mailbox → Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "28f01436-a943-4f52-85fe-9887c936d465",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "U47X8ZmI5PKBBGE4",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/cases",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email_text",
+              "value": "=    {{ 'Subject: ' + ($json.subject ?? $json.metadata?.subject ?? '') + '\\nFrom: ' + ($json.from ?? $json.metadata?.from ?? '') + '\\n\\n' + ($json.textPlain ?? '')}}"
+            },
+            {
+              "name": "reply_to",
+              "value": "={{ (($json.from ?? $json.metadata?.from ?? '').match(/[\\w.+-]+@[\\w.-]+/) || [''])[0] }}"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $json.subject ?? $json.metadata?.subject ?? '' }}"
+            },
+            {
+              "name": "source",
+              "value": "={{ $json.metadata?.['message-id'] ? 'imap:' + $json.metadata['message-id'] : '' }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "a91379a0-c0ee-4a41-8643-010308680c0a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "092e1ae5-a59f-4ed0-b111-19a2a24bbead",
+              "leftValue": "={{ $json.result.needs_attention }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "64888f69-b284-4f96-8665-c13fbb2450c0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fromEmail": "agent-mailbox@example.com",
+        "toEmail": "employee@example.com",
+        "subject": "={{ '⚠ Urgent spare-part request: ' + ($json.subject || 'no subject') }}",
+        "emailFormat": "text",
+        "text": "={{ 'An urgent request needs your attention.\\n\\nReason: ' + $json.result.attention_reason + '\\nCustomer: ' + ($json.result.extraction.customer_company || $json.result.extraction.contact_name || 'unknown') + '\\nCase: ' + $json.id + '\\n\\nPlease review the case in the Spare-Parts Agent UI: http://localhost:5173' }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "f063ed6f-bd49-4b39-bf07-7c3ef4a002c6",
+      "name": "Send an Email",
+      "webhookId": "ee359271-04ef-45fc-aea5-739983283de3",
+      "credentials": {
+        "smtp": {
+          "id": "LwFZz2PstMR7TRos",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e41a2b99-7146-4618-90ce-230cb3935892",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0611ddd75a719cc8e16fa7ecf27ff955b2e821633ce5cd63109722a53239b7"
+  },
+  "nodeGroups": [],
+  "id": "zU3OkQDGzqgU3HUc",
+  "tags": []
+}

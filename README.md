@@ -169,7 +169,51 @@ python -m pytest
 ```
 
 To reset the demo, delete the `storage/` folder — all e-mails return to the inbox.
+## n8n integration (real mailbox)
 
+The Python app contains the agent, the business rules and the human review.
+n8n only does the plumbing: reading the mailbox, sending e-mails and running on a schedule.
+
+```mermaid
+flowchart LR
+    M[Mailbox<br/>IMAP] --> W1[n8n workflow 1<br/>Mailbox → Agent]
+    W1 -->|POST /api/cases| API[FastAPI + Agent]
+    W1 -->|needs_attention| A[Alert e-mail<br/>to employee]
+    API --> UI[Review UI<br/>approve / edit / reject]
+    UI --> O[Outbox<br/>GET /api/outbox]
+    O --> W2[n8n workflow 2<br/>Send approved replies]
+    W2 -->|SMTP| C[Customer]
+    W2 -->|POST /api/cases/id/mark-sent| API
+```
+
+**Workflow 1 – Mailbox → Agent** (`n8n/mailbox-to-agent.json`)
+
+1. IMAP trigger: a new e-mail arrives.
+2. HTTP request to `POST /api/cases` with the e-mail text, the sender address from the e-mail header (`reply_to`), the subject and the message id as `source` (so the same e-mail is never processed twice).
+3. If `needs_attention` is true (urgent request and a part is not fully in stock), an alert e-mail is sent to an employee.
+
+**Workflow 2 – Send approved replies** (`n8n/send-approved-replies.json`)
+
+1. Runs every 2 minutes.
+2. `GET /api/outbox` returns only cases that are approved by a human, not sent yet and have a real reply address.
+3. Sends the approved reply to `reply_to`.
+4. `POST /api/cases/{id}/mark-sent`, so the reply is not sent again.
+
+**Safety rules**
+
+- A reply is only sent after a human approved it in the UI.
+- The recipient is always the sender address from the e-mail header, never an address extracted by the LLM from the e-mail text.
+- Cases created from pasted text have no `reply_to` and are never sent automatically.
+
+**Setup**
+
+1. Install and start n8n: `npm install n8n -g`, then `n8n start` (opens on http://localhost:5678).
+2. Use a separate test Gmail account with 2-Step Verification and an App Password.
+3. Create two credentials in n8n: IMAP (`imap.gmail.com`, port 993, SSL) and SMTP (`smtp.gmail.com`, port 465, SSL).
+4. Import both JSON files from `n8n/`, select the credentials and replace the placeholder addresses (`agent-mailbox@example.com`, `employee@example.com`).
+5. Start the backend (`uvicorn src.api:app`) and publish both workflows.
+
+**Tested:** manually end-to-end with an urgent test e-mail: case created, alert e-mail received, reply approved in the UI, reply received by the sender, and a second run of workflow 2 sent nothing.
 ## Evaluation
 
 The agent is evaluated on **20 synthetic e-mails** with hand-written correct answers (`eval/ground_truth.json`):
@@ -244,13 +288,15 @@ Full report with every e-mail: [`eval/results/report.md`](eval/results/report.md
 - **Reply languages:** German and English only.
 - **Storage:** cases are JSON files, not a database. No users or authentication yet.
 - **No real e-mail** is read or sent; the inbox and outbox are folders.
+- - The n8n workflows only run while n8n and the backend are running on the local machine.
+- If the reply is sent but `mark-sent` fails (for example, the backend is down at that moment), the reply can be sent twice. A production system would need an idempotent send step.
+- The IMAP trigger only reads unread e-mails that arrive while the workflow is active. In a new Gmail account, test e-mails may land in spam first.
+- Replies are grouped with the original e-mail by subject only (no `In-Reply-To` header).
+- The API has no authentication and must only run on localhost.
+- In one UI test the agent repeated the draft in its summary, although the prompt forbids it. Prompt rules alone are not fully reliable.
 
 ## Roadmap
 
-- [x] Evaluation set (20 e-mails) and first run
-- git add .[x] Run 2 after bug fixes
-- [ ] Fresh held-out set for an unbiased estimate after the fixes
-- [ ] n8n workflow: real mailbox trigger → this API → approval → send
 - [ ] Online demo on Azure App Service
 - [ ] Database instead of JSON files
 
