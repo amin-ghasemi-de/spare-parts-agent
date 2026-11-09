@@ -17,12 +17,15 @@ class Case(BaseModel):
     created_at: str
     email_text: str
     source: str | None = None
+    reply_to: str | None = None
+    subject: str | None = None
     result: AgentResult
     status: Literal["pending_review", "approved", "rejected"] = "pending_review"
     final_reply: str | None = None
     edited_by_human: bool = False
     reviewer_note: str | None = None
     decided_at: str | None = None
+    sent_at: str | None = None
 
 
 def _now() -> str:
@@ -34,12 +37,20 @@ def save_case(case: Case) -> None:
     (CASES_DIR / f"{case.id}.json").write_text(case.model_dump_json(indent=2), encoding="utf-8")
 
 
-def create_case(email_text: str, result: AgentResult, source: str | None = None) -> Case:
+def create_case(
+    email_text: str,
+    result: AgentResult,
+    source: str | None = None,
+    reply_to: str | None = None,
+    subject: str | None = None,
+) -> Case:
     case = Case(
         id=uuid.uuid4().hex[:8],
         created_at=_now(),
         email_text=email_text,
         source=source,
+        reply_to=reply_to,
+        subject=subject,
         result=result,
     )
     save_case(case)
@@ -79,5 +90,11 @@ def reject_case(case: Case, note: str | None = None) -> Case:
     case.status = "rejected"
     case.reviewer_note = note
     case.decided_at = _now()
+    save_case(case)
+    return case
+
+
+def mark_sent(case: Case) -> Case:
+    case.sent_at = _now()
     save_case(case)
     return case

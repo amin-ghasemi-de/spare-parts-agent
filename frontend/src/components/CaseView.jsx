@@ -183,6 +183,7 @@ function CaseView({ caseData, onUpdated }) {
               {new Date(caseData.decided_at).toLocaleString('de-DE')}
               {caseData.edited_by_human ? ' · edited by employee' : ''}
               {caseData.reviewer_note ? ` · Note: ${caseData.reviewer_note}` : ''}
+              {caseData.sent_at ? ` · sent ${new Date(caseData.sent_at).toLocaleString('de-DE')}` : ''}
             </p>
           </>
         )}

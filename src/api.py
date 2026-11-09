@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from src.agent import run_agent
-from src.case_store import Case, approve_case, create_case, list_cases, load_case, reject_case
+from src.case_store import Case, approve_case, create_case, list_cases, load_case, mark_sent, reject_case
 from src.config import PROJECT_ROOT
 
 EMAIL_DIR = PROJECT_ROOT / "data" / "emails"
@@ -18,6 +18,9 @@ app = FastAPI(title="Spare-Parts Request Agent")
 
 class ProcessRequest(BaseModel):
     email_text: str = Field(min_length=20, max_length=10000)
+    source: str | None = Field(default=None, max_length=300)
+    reply_to: str | None = Field(default=None, max_length=300)
+    subject: str | None = Field(default=None, max_length=300)
 
 
 class ApproveRequest(BaseModel):
@@ -44,12 +47,17 @@ def _processed_emails() -> tuple[set[str], set[str]]:
     return sources, texts
 
 
-def _run_and_create_case(email_text: str, source: str | None = None) -> Case:
+def _run_and_create_case(
+    email_text: str,
+    source: str | None = None,
+    reply_to: str | None = None,
+    subject: str | None = None,
+) -> Case:
     try:
         result = run_agent(email_text)
     except Exception as error:
         raise HTTPException(status_code=502, detail=f"Agent failed: {error}") from error
-    return create_case(email_text, result, source=source)
+    return create_case(email_text, result, source=source, reply_to=reply_to, subject=subject)
 
 
 @app.get("/api/health")
@@ -85,7 +93,9 @@ def process_inbox_email(name: str) -> Case:
 
 @app.post("/api/cases")
 def process_email(request: ProcessRequest) -> Case:
-    return _run_and_create_case(request.email_text)
+    if request.source and request.source in _processed_emails()[0]:
+        raise HTTPException(status_code=409, detail="E-mail was already processed")
+    return _run_and_create_case(request.email_text, request.source, request.reply_to, request.subject)
 
 
 @app.get("/api/cases")
@@ -119,6 +129,34 @@ def reject(case_id: str, request: RejectRequest) -> Case:
     if case.status != "pending_review":
         raise HTTPException(status_code=409, detail=f"Case is already {case.status}")
     return reject_case(case, request.note)
+
+
+@app.get("/api/outbox")
+def outbox() -> list[dict]:
+    ready = [
+        case
+        for case in list_cases()
+        if case.status == "approved" and not case.sent_at and case.reply_to
+    ]
+    return [
+        {
+            "id": case.id,
+            "reply_to": case.reply_to,
+            "subject": f"Re: {case.subject}" if case.subject else "Your spare-parts request",
+            "body": case.final_reply,
+        }
+        for case in ready
+    ]
+
+
+@app.post("/api/cases/{case_id}/mark-sent")
+def mark_case_sent(case_id: str) -> Case:
+    case = _get_case_or_404(case_id)
+    if case.status != "approved":
+        raise HTTPException(status_code=409, detail="Only approved cases can be sent")
+    if case.sent_at:
+        raise HTTPException(status_code=409, detail="Case was already sent")
+    return mark_sent(case)
 
 
 if FRONTEND_DIR.exists():

@@ -91,3 +91,39 @@ def test_unknown_or_invalid_case_id_returns_404(client):
 def test_too_short_email_is_rejected(client):
     response = client.post("/api/cases", json={"email_text": "hi"})
     assert response.status_code == 422
+
+def test_external_email_is_stored_with_reply_address_and_not_processed_twice(client):
+    payload = {
+        "email_text": EMAIL_TEXT,
+        "source": "imap:12345",
+        "reply_to": "customer@example.com",
+        "subject": "Ersatzteile",
+    }
+    case = client.post("/api/cases", json=payload).json()
+    assert case["reply_to"] == "customer@example.com"
+    assert case["source"] == "imap:12345"
+    assert client.post("/api/cases", json=payload).status_code == 409
+
+
+def test_outbox_lists_only_approved_unsent_cases_and_mark_sent_works(client):
+    payload = {"email_text": EMAIL_TEXT, "reply_to": "customer@example.com", "subject": "Ersatzteile"}
+    approved = client.post("/api/cases", json=payload).json()
+    pending = client.post("/api/cases", json=payload).json()
+    pasted = client.post("/api/cases", json={"email_text": EMAIL_TEXT}).json()
+    client.post(f"/api/cases/{approved['id']}/approve", json={"final_reply": "Final text"})
+    client.post(f"/api/cases/{pasted['id']}/approve", json={"final_reply": "No address"})
+
+    outbox = client.get("/api/outbox").json()
+    assert [item["id"] for item in outbox] == [approved["id"]]
+    assert outbox[0] == {
+        "id": approved["id"],
+        "reply_to": "customer@example.com",
+        "subject": "Re: Ersatzteile",
+        "body": "Final text",
+    }
+
+    assert client.post(f"/api/cases/{pending['id']}/mark-sent").status_code == 409
+    sent = client.post(f"/api/cases/{approved['id']}/mark-sent").json()
+    assert sent["sent_at"] is not None
+    assert client.get("/api/outbox").json() == []
+    assert client.post(f"/api/cases/{approved['id']}/mark-sent").status_code == 409
