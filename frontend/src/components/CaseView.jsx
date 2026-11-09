@@ -16,6 +16,7 @@ function formatArguments(args) {
 function CaseView({ caseData, onUpdated }) {
   const { result } = caseData
   const extraction = result.extraction
+  const isRequest = result.status !== 'not_a_request'
 
   const [replyText, setReplyText] = useState(result.draft || '')
   const [note, setNote] = useState('')
@@ -49,8 +50,16 @@ function CaseView({ caseData, onUpdated }) {
       </div>
 
       {result.needs_attention && <div className="alert attention">⚠ {result.attention_reason}</div>}
-      {result.status !== 'finished' && (
-        <div className="alert error">Agent status: {result.status}</div>
+      {!isRequest && (
+        <div className="alert attention">
+          This e-mail is not a spare-part request, so the agent was not run. Reject it or forward it
+          to the right team.
+        </div>
+      )}
+      {result.status === 'max_steps_reached' && (
+        <div className="alert error">
+          The agent stopped after the maximum number of steps. Please check this case manually.
+        </div>
       )}
 
       <div className="grid-2">
@@ -76,58 +85,66 @@ function CaseView({ caseData, onUpdated }) {
             <dd>{extraction.language}</dd>
           </dl>
 
-          <table className="items">
-            <thead>
-              <tr>
-                <th>Part no. (as written)</th>
-                <th>Description</th>
-                <th>Qty</th>
-              </tr>
-            </thead>
-            <tbody>
-              {extraction.items.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.part_no || '–'}</td>
-                  <td>{item.description}</td>
-                  <td>{item.quantity ?? '–'}</td>
+          {isRequest && (
+            <table className="items">
+              <thead>
+                <tr>
+                  <th>Part no. (as written)</th>
+                  <th>Description</th>
+                  <th>Qty</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {extraction.items.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.part_no || '–'}</td>
+                    <td>{item.description}</td>
+                    <td>{item.quantity ?? '–'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </section>
       </div>
 
-      <section className="card">
-        <h3>Agent summary</h3>
-        <pre className="pre">{(result.summary || 'No summary.').replaceAll('**', '')}</pre>
-      </section>
+      {isRequest && (
+        <>
+          <section className="card">
+            <h3>Agent summary</h3>
+            <pre className="pre">{(result.summary || 'No summary.').replaceAll('**', '')}</pre>
+          </section>
+
+          <section className="card">
+            <h3>
+              Tool calls ({result.trace.length}) · {result.steps_used} agent steps
+            </h3>
+            {result.trace.map((record, index) => (
+              <details key={index} className="trace-step">
+                <summary>
+                  {index + 1}. {record.tool}({formatArguments(record.arguments)})
+                </summary>
+                <pre className="pre">{JSON.stringify(record.result, null, 2)}</pre>
+              </details>
+            ))}
+          </section>
+        </>
+      )}
 
       <section className="card">
-        <h3>
-          Tool calls ({result.trace.length}) · {result.steps_used} agent steps
-        </h3>
-        {result.trace.map((record, index) => (
-          <details key={index} className="trace-step">
-            <summary>
-              {index + 1}. {record.tool}({formatArguments(record.arguments)})
-            </summary>
-            <pre className="pre">{JSON.stringify(record.result, null, 2)}</pre>
-          </details>
-        ))}
-      </section>
-
-      <section className="card">
-        <h3>Reply</h3>
+        <h3>{isRequest ? 'Reply' : 'Decision'}</h3>
         {isPending ? (
           <>
-            <textarea
-              className="draft-input"
-              rows={16}
-              value={replyText}
-              onChange={(event) => setReplyText(event.target.value)}
-              disabled={busy}
-            />
-            {isEdited && (
+            {isRequest && (
+              <textarea
+                className="draft-input"
+                rows={16}
+                value={replyText}
+                onChange={(event) => setReplyText(event.target.value)}
+                disabled={busy}
+              />
+            )}
+            {isRequest && isEdited && (
               <p className="muted small">
                 You edited the agent draft.{' '}
                 <button className="link" onClick={() => setReplyText(result.draft || '')}>
@@ -147,13 +164,15 @@ function CaseView({ caseData, onUpdated }) {
               <button className="button danger" onClick={() => decide('reject')} disabled={busy}>
                 Reject
               </button>
-              <button
-                className="button primary"
-                onClick={() => decide('approve')}
-                disabled={busy || replyText.trim() === ''}
-              >
-                Approve &amp; send to outbox
-              </button>
+              {isRequest && (
+                <button
+                  className="button primary"
+                  onClick={() => decide('approve')}
+                  disabled={busy || replyText.trim() === ''}
+                >
+                  Approve &amp; send to outbox
+                </button>
+              )}
             </div>
           </>
         ) : (
