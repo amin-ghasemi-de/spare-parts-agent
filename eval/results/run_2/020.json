@@ -1,0 +1,96 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Energiepark West GmbH",
+    "contact_name": "Bernd Krause",
+    "contact_email": "b.krause@energiepark-west.example",
+    "machine_model": "HPC-500",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Temperaturfühler PT100",
+        "quantity": 4
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "Temperaturfühler PT100"
+      },
+      "result": {
+        "query": "Temperaturfühler PT100",
+        "machine_model": "HPC-500",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-SNS-151",
+            "name_de": "Temperaturfühler PT100",
+            "name_en": "Temperature sensor PT100",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 68.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-SNS-151",
+        "quantity": 4
+      },
+      "result": {
+        "part_no": "HPC-SNS-151",
+        "found": true,
+        "requested_qty": 4,
+        "qty_available": 9,
+        "fully_available": true,
+        "qty_from_stock": 4,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Bernd Krause",
+        "items": [
+          {
+            "part_no": "HPC-SNS-151",
+            "quantity": 4
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Bernd Krause,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Temperaturfühler PT100 (HPC-SNS-151), 4 Stk., 68,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Bernd Krause,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Temperaturfühler PT100 (HPC-SNS-151), 4 Stk., 68,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee**\n\nI identified the requested part as **HPC‑SNS‑151** (Temperaturfühler PT100) for the HPC‑500, quantity 4. The stock check shows 9 units available, fully covering the order, with a delivery time of 2 working days from stock. No clarification is needed from the customer. Please review the draft reply and send it.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 6094,
+    "completion_tokens": 922,
+    "cached_tokens": 2560
+  },
+  "duration_seconds": 17.3,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

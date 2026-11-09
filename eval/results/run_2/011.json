@@ -1,0 +1,77 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Druckluft Süd GmbH",
+    "contact_name": "Ingrid Hoffmann",
+    "contact_email": "i.hoffmann@druckluft-sued.example",
+    "machine_model": "HPC-300",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Kühlwasserpumpe",
+        "quantity": null
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Kühlwasserpumpe"
+      },
+      "result": {
+        "query": "Kühlwasserpumpe",
+        "machine_model": "HPC-300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "cooling water pump"
+      },
+      "result": {
+        "query": "cooling water pump",
+        "machine_model": "HPC-300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": []
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Ingrid Hoffmann",
+        "items": [],
+        "language": "de",
+        "open_questions": [
+          "Könnten Sie uns bitte die genaue Teilenummer oder weitere Details zur Kühlwasserpumpe mitteilen?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genaue Teilenummer oder weitere Details zur Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genaue Teilenummer oder weitere Details zur Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply to the customer**\n\nGuten Tag Ingrid Hoffmann,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Könnten Sie uns bitte die genaue Teilenummer oder weitere Details zur Kühlwasserpumpe mitteilen?\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n**Summary for the employee**  \nThe request is for a cooling‑water pump for the HPC‑300 compressor, but no matching part was found in the catalog using the description “Kühlwasserpumpe”. We need the exact part number or more details from the customer to identify the correct spare part. No stock information is available yet.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5414,
+    "completion_tokens": 836,
+    "cached_tokens": 2304
+  },
+  "duration_seconds": 15.9,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

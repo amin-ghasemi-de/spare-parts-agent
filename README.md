@@ -175,42 +175,51 @@ To reset the demo, delete the `storage/` folder — all e-mails return to the in
 The agent is evaluated on **20 synthetic e-mails** with hand-written correct answers (`eval/ground_truth.json`):
 
 - **7 dev e-mails** (`data/emails/`) – used while developing and tuning the prompt
-- **13 held-out e-mails** (`eval/emails/`) – written after prompt development and never used for tuning
+- **13 held-out e-mails** (`eval/emails/`) – written after prompt development and never used for prompt tuning
 
 Each run executes the full pipeline (extraction + agent loop) on every e-mail. Scoring is automatic (`src/evaluation.py`). The offer is read from the arguments of the last `draft_reply` tool call, not from the free text of the reply.
 
-### Results – run 1 (before fixes)
+### Results
 
-| Metric | dev | held-out | all |
+Run 1 = original code. Run 2 = after two bug fixes (see below). The prompt was not changed between the runs.
+
+| Metric | Run 1 | Run 2 | Run 2: dev | Run 2: held-out |
+|---|---|---|---|---|
+| E-mails | 20 | 20 | 7 | 13 |
+| Errors | 1 | 0 | 0 | 0 |
+| Spare-part request detected correctly | 19/19 | 20/20 | 7/7 | 13/13 |
+| Machine model extracted | 18/18 | 18/19 | 7/7 | 11/12 |
+| Urgency, language, number of items extracted | 18/18 | 19/19 | 7/7 | 12/12 |
+| Expected parts found | 18/21 | 21/22 | 9/10 | 12/12 |
+| **Wrong parts offered** | **0** | **0** | **0** | **0** |
+| Offer exactly right (all parts, correct quantities, nothing extra) | 16/18 | 18/19 | 6/7 | 12/12 |
+| Asked the customer when needed, and only then | 15/16 | 16/17 | 6/6 | 10/11 |
+| Urgency warning correct | 18/18 | 19/19 | 7/7 | 12/12 |
+| Avg tokens per e-mail | 7,867 | 7,923 | 9,352 | 7,153 |
+| Avg LLM calls per e-mail | 5.5 | 5.5 | 6.1 | 5.1 |
+
+**Consistency:** 17 of 18 e-mails got exactly the same offer in both runs. The only difference is e-mail 018, which was fixed on purpose.
+
+### Failure analysis
+
+Every failure was traced through the tool-call log of the result file.
+
+| E-mail | What happened | Root cause | Status |
 |---|---|---|---|
-| E-mails | 7 | 13 | 20 |
-| Errors | 0 | 1 | 1 |
-| Spare-part request detected correctly | 7/7 | 12/12 | 19/19 |
-| Machine model, urgency, language, number of items extracted | 7/7 | 11/11 | 18/18 |
-| Expected parts found | 9/10 | 9/11 | 18/21 |
-| **Wrong parts offered** | **0** | **0** | **0** |
-| Offer exactly right (all parts, correct quantities, nothing extra) | 6/7 | 10/11 | 16/18 |
-| Asked the customer when needed, and only then | 6/6 | 9/10 | 15/16 |
-| Urgency warning correct | 7/7 | 11/11 | 18/18 |
-| Avg tokens per e-mail | 9,118 | 7,138 | 7,867 |
-| Avg LLM calls per e-mail | 6.0 | 5.2 | 5.5 |
+| 018 | Run 1: no offer, unnecessary question | The search tool compared the machine model exactly: `hpc300` ≠ `HPC-300`, so all four searches returned nothing | **Fixed in run 2:** model names are normalized; unknown models return a warning instead of an empty list |
+| 015 | Run 1: error. Run 2: correct part, but an odd question to the customer | The extractor put the machine model `H2D-700` into the **part-number** field. Run 1: the agent passed `machine_model: null`, which the tool schema did not allow → API error. Run 2: the agent found the right part, but asked the customer to confirm "part number H2D-700" | Schema **fixed in run 2**. Extraction issue **not fixed** |
+| 006 | Valve left out, customer asked for the quantity (both runs) | Quantity was only implicit ("das Ventil"). The agent found the valve and checked stock, but then chose to ask | **Not fixed** |
 
-### What went wrong – and what was fixed
+Why 015 and 006 were not fixed: both would need a prompt or extraction change, and the same patterns appear in held-out e-mails. Changing the system after seeing these results would make the held-out numbers meaningless.
 
-| E-mail | What happened | Cause | Status |
-|---|---|---|---|
-| 018 | No offer, unnecessary question | The search tool compared the machine model exactly: `hpc300` ≠ `HPC-300`, so every search returned nothing | **Fixed:** model names are normalized; unknown models return a warning instead of an empty list |
-| 015 | Error | The LLM sent `machine_model: null`, but the tool schema only allowed a string, so the API rejected the call | **Fixed:** schema allows `null` |
-| 006 | Valve left out, customer asked for quantity | Quantity was only implicit ("das Ventil"). The agent found the valve and checked stock, but then chose to ask | **Not fixed:** the same pattern appears in held-out e-mail 019. Changing the prompt now would leak test information. An earlier manual run offered quantity 1 → non-deterministic |
-
-Run 2 (after the fixes) is pending.
+A possible fix for 015 is a deterministic rule in code: if an extracted part number is a known machine model, move it to `machine_model`. Part numbers and machine models look similar in this catalog (`H2D-700` vs. `H2D-SNS-331`), which is a real-world source of confusion for people and models alike.
 
 ### How to read these numbers
 
-- **Small sample:** 18 scored e-mails and one run. Each e-mail moves a percentage by about 5 points, so the results are shown as counts.
-- **Dev vs. held-out:** dev scored slightly worse here. With this sample size the difference is noise.
-- **All failures were omissions.** No wrong part was offered in any e-mail – in a spare-parts process, a missing line is much cheaper than a wrong delivery.
-- **Time:** the average run took 28 s, but this includes waiting for the free-tier rate limit (8,000 tokens per minute). A single simple e-mail takes about 3 s.
+- **Small sample:** 19 scored e-mails per run. Each e-mail moves a percentage by about 5 points, so results are shown as counts.
+- **The run-2 fixes were found on held-out e-mails.** The run-2 held-out numbers are therefore slightly optimistic. An unbiased estimate after the fixes would need a fresh test set.
+- **All failures were omissions or unnecessary questions** – never a wrong part. In a spare-parts process, a missing line is much cheaper than a wrong delivery.
+- **Time:** an average run took about 30 s, but this includes waiting for the free-tier rate limit (8,000 tokens per minute). A single simple e-mail takes about 3 s.
 
 Reproduce:
 
@@ -219,7 +228,7 @@ python -m scripts.run_eval --run 1
 python -m scripts.eval_report
 ```
 
-Full report: [`eval/results/report.md`](eval/results/report.md)
+Full report with every e-mail: [`eval/results/report.md`](eval/results/report.md)
 
 ## Known limitations
 
@@ -227,7 +236,8 @@ Full report: [`eval/results/report.md`](eval/results/report.md)
 - **Non-deterministic LLM** – the same e-mail can produce differently worded questions and summaries, even at temperature 0.
 - **Summary for the employee** is written by the LLM and sometimes misreports stock numbers. The tool call trace in the UI always shows the correct values.
 - **Quantity is required** by `draft_reply`; if the customer gives none, the agent has to assume one.
-- - **Implicit quantities** ("the valve", "a pump") are handled inconsistently: sometimes the agent offers 1, sometimes it asks.
+-**Implicit quantities** ("das Ventil", "a pump") are handled differently: for e-mail 006 the agent always asks, for e-mail 019 it offers quantity 1.
+- **Machine models can be mistaken for part numbers** during extraction, because both use a similar format.
 - **The summary for the employee often repeats the full draft**, although the prompt says not to.
 - **Cost grows with every agent step**, because each step sends the whole conversation again (simple e-mail: about 6,700 tokens; three parts: about 13,800 tokens).
 - **No delivery address** is extracted.
@@ -238,7 +248,8 @@ Full report: [`eval/results/report.md`](eval/results/report.md)
 ## Roadmap
 
 - [x] Evaluation set (20 e-mails) and first run
-- [ ] Run 2 after fixes, repeated runs to measure consistency
+- git add .[x] Run 2 after bug fixes
+- [ ] Fresh held-out set for an unbiased estimate after the fixes
 - [ ] n8n workflow: real mailbox trigger → this API → approval → send
 - [ ] Online demo on Azure App Service
 - [ ] Database instead of JSON files

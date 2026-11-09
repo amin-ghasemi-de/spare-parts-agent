@@ -64,7 +64,16 @@ def score_case(truth: dict, result: dict) -> dict:
     score["urgency_ok"] = extraction["urgency"] in truth["urgency"]
     score["language_ok"] = extraction["language"] in truth["language"]
     score["item_count_ok"] = len(extraction["items"]) == truth["requested_item_count"]
-
+    score["extraction_issues"] = [
+        f"{field}={extraction.get(field)!r}"
+        for field, key in [
+            ("machine_model", "model_ok"),
+            ("urgency", "urgency_ok"),
+            ("language", "language_ok"),
+            ("items", "item_count_ok"),
+        ]
+        if not score[key]
+    ]
     score["parts_expected"] = len(expected)
     score["parts_found"] = sum(1 for part_no in expected if part_no in offered)
     score["qty_correct"] = sum(1 for part_no, qty in expected.items() if offered.get(part_no) == qty)

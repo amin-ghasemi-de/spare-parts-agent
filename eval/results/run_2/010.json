@@ -1,0 +1,95 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "H2 Tankstellen Nord GmbH",
+    "contact_name": "Kai Schneider",
+    "contact_email": "k.schneider@h2-tankstellen-nord.example",
+    "machine_model": null,
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": "H2D-SEA-350",
+        "description": "O-Ring-Satz Zapfkupplung",
+        "quantity": 5
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": null,
+        "query": "H2D-SEA-350"
+      },
+      "result": {
+        "query": "H2D-SEA-350",
+        "machine_model": null,
+        "warning": null,
+        "exact_part_no_match": true,
+        "results": [
+          {
+            "part_no": "H2D-SEA-350",
+            "name_de": "O-Ring-Satz Zapfkupplung",
+            "name_en": "O-ring kit for nozzle",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 42.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "H2D-SEA-350",
+        "quantity": 5
+      },
+      "result": {
+        "part_no": "H2D-SEA-350",
+        "found": true,
+        "requested_qty": 5,
+        "qty_available": 40,
+        "fully_available": true,
+        "qty_from_stock": 5,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Kai Schneider",
+        "items": [
+          {
+            "part_no": "H2D-SEA-350",
+            "quantity": 5
+          }
+        ],
+        "language": "de"
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Kai Schneider,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. O-Ring-Satz Zapfkupplung (H2D-SEA-350), 5 Stk., 42,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Kai Schneider,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. O-Ring-Satz Zapfkupplung (H2D-SEA-350), 5 Stk., 42,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply to the customer**\n\nGuten Tag Kai Schneider,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Position an:\n\n- O‑Ring‑Satz Zapfkupplung (H2D‑SEA‑350), 5 Stk., 42,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen  \n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n**Summary for the employee**\n\nI identified the requested part H2D‑SEA‑350 (O‑Ring‑Satz Zapfkupplung) and confirmed it matches exactly. Stock check shows 40 units available, fully covering the requested quantity of 5, with delivery in 2 working days. No open questions remain. Please review the offer and send it to the customer.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5742,
+    "completion_tokens": 965,
+    "cached_tokens": 2304
+  },
+  "duration_seconds": 23.3,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

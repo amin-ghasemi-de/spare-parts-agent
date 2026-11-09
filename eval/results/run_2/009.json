@@ -1,0 +1,94 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "GreenGas Iberia",
+    "contact_name": "Maria Lopez",
+    "contact_email": "m.lopez@greengas-iberia.example",
+    "machine_model": "HPC-500",
+    "urgency": "high",
+    "language": "en",
+    "items": [
+      {
+        "part_no": null,
+        "description": "safety relief valve",
+        "quantity": 1
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "safety relief valve"
+      },
+      "result": {
+        "query": "safety relief valve",
+        "machine_model": "HPC-500",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-SAF-270",
+            "name_de": "Sicherheitsventil 550 bar",
+            "name_en": "Safety relief valve 550 bar",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 260.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-SAF-270",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "HPC-SAF-270",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 1,
+        "fully_available": true,
+        "qty_from_stock": 1,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Maria Lopez",
+        "items": [
+          {
+            "part_no": "HPC-SAF-270",
+            "quantity": 1
+          }
+        ],
+        "language": "en"
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Dear Maria Lopez,\n\nthank you for your request.\n\nWe are pleased to offer the following items:\n\n1. Safety relief valve 550 bar (HPC-SAF-270), qty 1, 260.00 EUR/pc, in stock, delivery in approx. 2 working days\n\nAll prices are net, plus VAT.\n\nBest regards\nYour Spare Parts Service"
+      }
+    }
+  ],
+  "draft": "Dear Maria Lopez,\n\nthank you for your request.\n\nWe are pleased to offer the following items:\n\n1. Safety relief valve 550 bar (HPC-SAF-270), qty 1, 260.00 EUR/pc, in stock, delivery in approx. 2 working days\n\nAll prices are net, plus VAT.\n\nBest regards\nYour Spare Parts Service",
+  "summary": "**Draft reply to the customer**\n\nDear Maria Lopez,\n\nthank you for your request.\n\nWe are pleased to offer the following item:\n\n1. Safety relief valve 550 bar (HPC‑SAF‑270), qty 1, 260.00 EUR/pc, in stock, delivery in approx. 2 working days\n\nAll prices are net, plus VAT.\n\nBest regards  \nYour Spare Parts Service  \n\n---\n\n**Summary for the employee**  \nI identified the safety relief valve for the HPC‑500 as part HPC‑SAF‑270, quantity 1, with 1 unit in stock and a delivery time of 2 working days. No ambiguities remain; the offer can be sent as drafted.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5670,
+    "completion_tokens": 968,
+    "cached_tokens": 1536
+  },
+  "duration_seconds": 27.1,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

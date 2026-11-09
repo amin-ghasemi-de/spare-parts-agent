@@ -1,0 +1,86 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Stadtwerke Musterstadt",
+    "contact_name": "Petra Schulz",
+    "contact_email": "p.schulz@stadtwerke-musterstadt.example",
+    "machine_model": "H2D-350",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Rückschlagventil",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "H2D-350",
+        "query": "Rückschlagventil"
+      },
+      "result": {
+        "query": "Rückschlagventil",
+        "machine_model": "H2D-350",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "H2D-VLV-310",
+            "name_de": "Rückschlagventil DN6",
+            "name_en": "Check valve DN6",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 145.0,
+            "score": 100
+          },
+          {
+            "part_no": "H2D-VLV-311",
+            "name_de": "Rückschlagventil DN10",
+            "name_en": "Check valve DN10",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 175.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Petra Schulz",
+        "items": [],
+        "language": "de",
+        "open_questions": [
+          "Welches Rückschlagventil benötigen Sie, das DN6 (Teilnummer H2D-VLV-310) oder das DN10 (Teilnummer H2D-VLV-311)?"
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Petra Schulz,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Welches Rückschlagventil benötigen Sie, das DN6 (Teilnummer H2D-VLV-310) oder das DN10 (Teilnummer H2D-VLV-311)?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Petra Schulz,\n\nvielen Dank für Ihre Anfrage.\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Welches Rückschlagventil benötigen Sie, das DN6 (Teilnummer H2D-VLV-310) oder das DN10 (Teilnummer H2D-VLV-311)?\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee:**  \nThe customer needs two check valves for the H2D‑350 pump, but the catalog shows two possible matches (DN6 H2D‑VLV‑310 and DN10 H2D‑VLV‑311). No stock check was performed because the exact part could not be identified. Ask Petra which valve size she requires before proceeding.",
+  "steps_used": 3,
+  "usage": {
+    "llm_calls": 4,
+    "prompt_tokens": 4566,
+    "completion_tokens": 911,
+    "cached_tokens": 1792
+  },
+  "duration_seconds": 11.1,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

@@ -1,0 +1,160 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": null,
+    "contact_name": "Jens Möller",
+    "contact_email": "jens.moeller@landtechnik-moeller.example",
+    "machine_model": "hpc300",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "ölfiltr",
+        "quantity": 2
+      },
+      {
+        "part_no": null,
+        "description": "ansaugfiltr",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "ölfiltr"
+      },
+      "result": {
+        "query": "ölfiltr",
+        "machine_model": "hpc300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-FLT-131",
+            "name_de": "Ölfilter",
+            "name_en": "Oil filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 24.9,
+            "score": 93
+          },
+          {
+            "part_no": "HPC-FLT-130",
+            "name_de": "Ansaugfilter",
+            "name_en": "Intake air filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 38.5,
+            "score": 77
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "hpc300",
+        "query": "ansaugfiltr"
+      },
+      "result": {
+        "query": "ansaugfiltr",
+        "machine_model": "hpc300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-FLT-130",
+            "name_de": "Ansaugfilter",
+            "name_en": "Intake air filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 38.5,
+            "score": 96
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-FLT-131",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "HPC-FLT-131",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 60,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-FLT-130",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "HPC-FLT-130",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 35,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Jens Möller",
+        "items": [
+          {
+            "part_no": "HPC-FLT-131",
+            "quantity": 2
+          },
+          {
+            "part_no": "HPC-FLT-130",
+            "quantity": 2
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Jens Möller,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Ölfilter (HPC-FLT-131), 2 Stk., 24,90 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Ansaugfilter (HPC-FLT-130), 2 Stk., 38,50 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Jens Möller,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Ölfilter (HPC-FLT-131), 2 Stk., 24,90 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Ansaugfilter (HPC-FLT-130), 2 Stk., 38,50 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee**\n\nI identified the requested oil filter (HPC‑FLT‑131) and intake‑air filter (HPC‑FLT‑130) for the HPC‑300, each with a quantity of 2. Both parts are fully in stock (60 × HPC‑FLT‑131 and 35 × HPC‑FLT‑130) and can be delivered from stock in 2 working days. No clarification is needed; the draft reply is ready to be sent.",
+  "steps_used": 6,
+  "usage": {
+    "llm_calls": 7,
+    "prompt_tokens": 9001,
+    "completion_tokens": 1073,
+    "cached_tokens": 4096
+  },
+  "duration_seconds": 43.4,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

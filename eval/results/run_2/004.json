@@ -1,0 +1,235 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Silesia Gas Solutions",
+    "contact_name": "Tomasz Nowak",
+    "contact_email": "t.nowak@silesia-gas.example",
+    "machine_model": "HPC-300",
+    "urgency": "normal",
+    "language": "mixed",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Ölfilter",
+        "quantity": 4
+      },
+      {
+        "part_no": null,
+        "description": "Ansaugfilter",
+        "quantity": 4
+      },
+      {
+        "part_no": null,
+        "description": "compressor oil, 5 L",
+        "quantity": 2
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Ölfilter"
+      },
+      "result": {
+        "query": "Ölfilter",
+        "machine_model": "HPC-300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-FLT-131",
+            "name_de": "Ölfilter",
+            "name_en": "Oil filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 24.9,
+            "score": 100
+          },
+          {
+            "part_no": "HPC-FLT-130",
+            "name_de": "Ansaugfilter",
+            "name_en": "Intake air filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 38.5,
+            "score": 86
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "Ansaugfilter"
+      },
+      "result": {
+        "query": "Ansaugfilter",
+        "machine_model": "HPC-300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-FLT-130",
+            "name_de": "Ansaugfilter",
+            "name_en": "Intake air filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 38.5,
+            "score": 100
+          },
+          {
+            "part_no": "HPC-FLT-131",
+            "name_de": "Ölfilter",
+            "name_en": "Oil filter",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 24.9,
+            "score": 67
+          },
+          {
+            "part_no": "HPC-SNS-150",
+            "name_de": "Drucktransmitter 0-600 bar",
+            "name_en": "Pressure transmitter 0-600 bar",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 310.0,
+            "score": 61
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-300",
+        "query": "compressor oil"
+      },
+      "result": {
+        "query": "compressor oil",
+        "machine_model": "HPC-300",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-LUB-140",
+            "name_de": "Kompressoröl synthetisch 5 L",
+            "name_en": "Synthetic compressor oil 5 L",
+            "compatible_models": [
+              "HPC-300",
+              "HPC-500"
+            ],
+            "unit_price_eur": 79.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-FLT-131",
+        "quantity": 4
+      },
+      "result": {
+        "part_no": "HPC-FLT-131",
+        "found": true,
+        "requested_qty": 4,
+        "qty_available": 60,
+        "fully_available": true,
+        "qty_from_stock": 4,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-FLT-130",
+        "quantity": 4
+      },
+      "result": {
+        "part_no": "HPC-FLT-130",
+        "found": true,
+        "requested_qty": 4,
+        "qty_available": 35,
+        "fully_available": true,
+        "qty_from_stock": 4,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-LUB-140",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "HPC-LUB-140",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 18,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Tomasz Nowak",
+        "items": [
+          {
+            "part_no": "HPC-FLT-131",
+            "quantity": 4
+          },
+          {
+            "part_no": "HPC-FLT-130",
+            "quantity": 4
+          },
+          {
+            "part_no": "HPC-LUB-140",
+            "quantity": 2
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Tomasz Nowak,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Ölfilter (HPC-FLT-131), 4 Stk., 24,90 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Ansaugfilter (HPC-FLT-130), 4 Stk., 38,50 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n3. Kompressoröl synthetisch 5 L (HPC-LUB-140), 2 Stk., 79,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Tomasz Nowak,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Ölfilter (HPC-FLT-131), 4 Stk., 24,90 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Ansaugfilter (HPC-FLT-130), 4 Stk., 38,50 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n3. Kompressoröl synthetisch 5 L (HPC-LUB-140), 2 Stk., 79,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee**\n\nI identified the three parts the customer needs for the HPC‑300 compressors:\n- Oil filter HPC‑FLT‑131 (4 pcs) – 60 pcs in stock, delivery 2 days.\n- Intake (air) filter HPC‑FLT‑130 (4 pcs) – 35 pcs in stock, delivery 2 days.\n- Synthetic compressor oil 5 L HPC‑LUB‑140 (2 pcs) – 18 pcs in stock, delivery 2 days.\n\nAll items are fully available, so the draft reply can be sent as is. No further clarification is required.",
+  "steps_used": 8,
+  "usage": {
+    "llm_calls": 9,
+    "prompt_tokens": 14369,
+    "completion_tokens": 1691,
+    "cached_tokens": 5120
+  },
+  "duration_seconds": 85.2,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

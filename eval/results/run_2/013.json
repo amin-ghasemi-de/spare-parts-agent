@@ -1,0 +1,149 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Waterstof NL B.V.",
+    "contact_name": "Pieter de Vries",
+    "contact_email": "p.devries@waterstof-nl.example",
+    "machine_model": "H2D-350",
+    "urgency": "normal",
+    "language": "mixed",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Partikelfilter",
+        "quantity": 2
+      },
+      {
+        "part_no": null,
+        "description": "hydrogen gas detector",
+        "quantity": 1
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "H2D-350",
+        "query": "Partikelfilter"
+      },
+      "result": {
+        "query": "Partikelfilter",
+        "machine_model": "H2D-350",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "H2D-FLT-340",
+            "name_de": "Partikelfilter 5 Mikron",
+            "name_en": "Particle filter 5 micron",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 210.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "H2D-350",
+        "query": "hydrogen gas detector"
+      },
+      "result": {
+        "query": "hydrogen gas detector",
+        "machine_model": "H2D-350",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "H2D-SNS-330",
+            "name_de": "Wasserstoff-Gassensor",
+            "name_en": "Hydrogen gas detector",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 385.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "H2D-FLT-340",
+        "quantity": 2
+      },
+      "result": {
+        "part_no": "H2D-FLT-340",
+        "found": true,
+        "requested_qty": 2,
+        "qty_available": 11,
+        "fully_available": true,
+        "qty_from_stock": 2,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "H2D-SNS-330",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "H2D-SNS-330",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 4,
+        "fully_available": true,
+        "qty_from_stock": 1,
+        "qty_to_order": 0,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": null
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Pieter de Vries",
+        "items": [
+          {
+            "part_no": "H2D-FLT-340",
+            "quantity": 2
+          },
+          {
+            "part_no": "H2D-SNS-330",
+            "quantity": 1
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Pieter de Vries,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Partikelfilter 5 Mikron (H2D-FLT-340), 2 Stk., 210,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Wasserstoff-Gassensor (H2D-SNS-330), 1 Stk., 385,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Pieter de Vries,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Partikelfilter 5 Mikron (H2D-FLT-340), 2 Stk., 210,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n2. Wasserstoff-Gassensor (H2D-SNS-330), 1 Stk., 385,00 EUR/Stk., ab Lager verfügbar, Lieferung in ca. 2 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Summary for the employee:**  \nI identified two parts for the H2D-350 dispenser: the particle filter H2D-FLT-340 (2 pcs, 11 in stock, delivery 2 days) and the hydrogen gas detector H2D-SNS-330 (1 pc, 4 in stock, delivery 2 days). All required information was clear, and the draft reply has been prepared in German. No open questions remain.",
+  "steps_used": 6,
+  "usage": {
+    "llm_calls": 7,
+    "prompt_tokens": 9100,
+    "completion_tokens": 996,
+    "cached_tokens": 3328
+  },
+  "duration_seconds": 40.2,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

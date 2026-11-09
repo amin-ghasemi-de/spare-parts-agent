@@ -1,0 +1,133 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Stadtwerke Hafenstadt",
+    "contact_name": "Florian Becker",
+    "contact_email": "f.becker@stadtwerke-hafenstadt.example",
+    "machine_model": null,
+    "urgency": "high",
+    "language": "de",
+    "items": [
+      {
+        "part_no": "H2D-700",
+        "description": "Coriolis-Durchflussmesser der Zapfsäule",
+        "quantity": 1
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": null,
+        "query": "H2D-700"
+      },
+      "result": {
+        "query": "H2D-700",
+        "machine_model": null,
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "H2D-NOZ-701",
+            "name_de": "Zapfkupplung 700 bar",
+            "name_en": "Refueling nozzle 700 bar",
+            "compatible_models": [
+              "H2D-700"
+            ],
+            "unit_price_eur": 2450.0,
+            "score": 67
+          },
+          {
+            "part_no": "H2D-HOS-702",
+            "name_de": "Betankungsschlauch 700 bar",
+            "name_en": "Refueling hose 700 bar",
+            "compatible_models": [
+              "H2D-700"
+            ],
+            "unit_price_eur": 880.0,
+            "score": 67
+          }
+        ]
+      }
+    },
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": null,
+        "query": "Coriolis-Durchflussmesser"
+      },
+      "result": {
+        "query": "Coriolis-Durchflussmesser",
+        "machine_model": null,
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "H2D-SNS-331",
+            "name_de": "Coriolis-Durchflussmesser",
+            "name_en": "Coriolis flow meter",
+            "compatible_models": [
+              "H2D-350",
+              "H2D-700"
+            ],
+            "unit_price_eur": 3200.0,
+            "score": 100
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "H2D-SNS-331",
+        "quantity": 1
+      },
+      "result": {
+        "part_no": "H2D-SNS-331",
+        "found": true,
+        "requested_qty": 1,
+        "qty_available": 0,
+        "fully_available": false,
+        "qty_from_stock": 0,
+        "qty_to_order": 1,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": 44
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Florian Becker",
+        "items": [
+          {
+            "part_no": "H2D-SNS-331",
+            "quantity": 1
+          }
+        ],
+        "language": "de",
+        "open_questions": [
+          "Bitte bestätigen Sie, dass Sie das Teil H2D-SNS-331 (Coriolis-Durchflussmesser) benötigen, da die von Ihnen genannte Teilenummer H2D-700 nicht exakt gefunden wurde."
+        ]
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Florian Becker,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Coriolis-Durchflussmesser (H2D-SNS-331), 1 Stk., 3.200,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 44 Werktage\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Bitte bestätigen Sie, dass Sie das Teil H2D-SNS-331 (Coriolis-Durchflussmesser) benötigen, da die von Ihnen genannte Teilenummer H2D-700 nicht exakt gefunden wurde.\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Florian Becker,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Coriolis-Durchflussmesser (H2D-SNS-331), 1 Stk., 3.200,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 44 Werktage\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angaben:\n- Bitte bestätigen Sie, dass Sie das Teil H2D-SNS-331 (Coriolis-Durchflussmesser) benötigen, da die von Ihnen genannte Teilenummer H2D-700 nicht exakt gefunden wurde.\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply sent to the customer**\n\nGuten Tag Florian Becker,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Position an:\n\n1. Coriolis‑Durchflussmesser (H2D‑SNS‑331), 1 Stk., 3.200,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 44 Werktage\n\nFür die weitere Bearbeitung benötigen wir noch folgende Angabe:\n- Bitte bestätigen Sie, dass Sie das Teil H2D‑SNS‑331 (Coriolis‑Durchflussmesser) benötigen, da die von Ihnen genannte Teilenummer H2D‑700 nicht exakt gefunden wurde.\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n---\n\n**Summary for the employee**\n\nI identified the Coriolis‑Durchflussmesser part H2D‑SNS‑331 as the likely replacement for the requested H2D‑700. Stock check shows 0 in stock, 1 to be ordered, with a delivery time of about 44 working days. The customer must confirm that this is the correct part, since the exact part number they gave was not found. Please verify the suitability of H2D‑SNS‑331 for the H2D‑700 station before confirming the order.",
+  "steps_used": 5,
+  "usage": {
+    "llm_calls": 6,
+    "prompt_tokens": 7763,
+    "completion_tokens": 1453,
+    "cached_tokens": 2816
+  },
+  "duration_seconds": 41.1,
+  "needs_attention": true,
+  "attention_reason": "Urgent request, but not fully in stock: H2D-SNS-331",
+  "status": "finished"
+}

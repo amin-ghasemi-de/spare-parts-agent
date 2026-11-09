@@ -1,0 +1,95 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Stahlwerk Mitte AG",
+    "contact_name": "Thomas Albrecht",
+    "contact_email": "t.albrecht@stahlwerk-mitte.example",
+    "machine_model": "HPC-500",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Keilriemensätze",
+        "quantity": 3
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "Keilriemensätze"
+      },
+      "result": {
+        "query": "Keilriemensätze",
+        "machine_model": "HPC-500",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-MEC-260",
+            "name_de": "Keilriemensatz",
+            "name_en": "V-belt set",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 72.0,
+            "score": 90
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-MEC-260",
+        "quantity": 3
+      },
+      "result": {
+        "part_no": "HPC-MEC-260",
+        "found": true,
+        "requested_qty": 3,
+        "qty_available": 0,
+        "fully_available": false,
+        "qty_from_stock": 0,
+        "qty_to_order": 3,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": 7
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Thomas Albrecht",
+        "items": [
+          {
+            "part_no": "HPC-MEC-260",
+            "quantity": 3
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Thomas Albrecht,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Keilriemensatz (HPC-MEC-260), 3 Stk., 72,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 7 Werktage\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Thomas Albrecht,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Keilriemensatz (HPC-MEC-260), 3 Stk., 72,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 7 Werktage\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply to the customer**\n\nGuten Tag Thomas Albrecht,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Position an:\n\n1. Keilriemensatz (HPC-MEC-260), 3 Stück, 72,00 EUR/Stk., derzeit nicht auf Lager, Lieferzeit ca. 7 Werktage\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n---\n\n**Summary for the employee**  \nI identified the part “Keilriemensatz” (catalog number HPC-MEC-260) compatible with the HPC‑500 and matched the requested quantity of 3. The stock check shows 0 pcs on hand, so the full quantity must be ordered with a delivery time of about 7 working days. No further information is needed from the customer.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5721,
+    "completion_tokens": 1585,
+    "cached_tokens": 1024
+  },
+  "duration_seconds": 45.8,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}

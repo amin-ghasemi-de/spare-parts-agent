@@ -1,0 +1,95 @@
+{
+  "extraction": {
+    "is_spare_part_request": true,
+    "customer_company": "Chemiepark Ost GmbH",
+    "contact_name": "Andrea Neumann",
+    "contact_email": "a.neumann@chemiepark-ost.example",
+    "machine_model": "HPC-500",
+    "urgency": "normal",
+    "language": "de",
+    "items": [
+      {
+        "part_no": null,
+        "description": "Kolbenringsätze",
+        "quantity": 3
+      }
+    ]
+  },
+  "trace": [
+    {
+      "tool": "search_part_catalog",
+      "arguments": {
+        "machine_model": "HPC-500",
+        "query": "Kolbenringsätze"
+      },
+      "result": {
+        "query": "Kolbenringsätze",
+        "machine_model": "HPC-500",
+        "warning": null,
+        "exact_part_no_match": false,
+        "results": [
+          {
+            "part_no": "HPC-SEA-210",
+            "name_de": "Kolbenringsatz",
+            "name_en": "Piston ring set",
+            "compatible_models": [
+              "HPC-500"
+            ],
+            "unit_price_eur": 230.0,
+            "score": 90
+          }
+        ]
+      }
+    },
+    {
+      "tool": "check_stock",
+      "arguments": {
+        "part_no": "HPC-SEA-210",
+        "quantity": 3
+      },
+      "result": {
+        "part_no": "HPC-SEA-210",
+        "found": true,
+        "requested_qty": 3,
+        "qty_available": 1,
+        "fully_available": false,
+        "qty_from_stock": 1,
+        "qty_to_order": 2,
+        "delivery_days_from_stock": 2,
+        "delivery_days_for_rest": 9
+      }
+    },
+    {
+      "tool": "draft_reply",
+      "arguments": {
+        "contact_name": "Andrea Neumann",
+        "items": [
+          {
+            "part_no": "HPC-SEA-210",
+            "quantity": 3
+          }
+        ],
+        "language": "de",
+        "open_questions": []
+      },
+      "result": {
+        "ok": true,
+        "errors": [],
+        "draft": "Guten Tag Andrea Neumann,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Kolbenringsatz (HPC-SEA-210), 3 Stk., 230,00 EUR/Stk., 1 Stück ab Lager (ca. 2 Werktage), Rest in ca. 9 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service"
+      }
+    }
+  ],
+  "draft": "Guten Tag Andrea Neumann,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Positionen an:\n\n1. Kolbenringsatz (HPC-SEA-210), 3 Stk., 230,00 EUR/Stk., 1 Stück ab Lager (ca. 2 Werktage), Rest in ca. 9 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen\nIhr Ersatzteil-Service",
+  "summary": "**Draft reply to the customer**\n\nGuten Tag Andrea Neumann,\n\nvielen Dank für Ihre Anfrage.\n\nGerne bieten wir Ihnen folgende Position an:\n\n1. Kolbenringsatz (HPC-SEA-210), 3 Stk., 230,00 EUR/Stk., 1 Stück ab Lager (ca. 2 Werktage), Rest in ca. 9 Werktagen\n\nAlle Preise verstehen sich netto zzgl. MwSt.\n\nMit freundlichen Grüßen  \nIhr Ersatzteil‑Service  \n\n---\n\n**Summary for the employee**  \nI identified the part “Kolbenringsatz” (catalog number HPC-SEA-210) compatible with the HPC‑500 and checked stock: 1 piece available now (2 days), the remaining 2 pieces need to be ordered (9 days). No further information is required from the customer. Please review the stock situation and confirm the offer before sending.",
+  "steps_used": 4,
+  "usage": {
+    "llm_calls": 5,
+    "prompt_tokens": 5649,
+    "completion_tokens": 835,
+    "cached_tokens": 2048
+  },
+  "duration_seconds": 14.5,
+  "needs_attention": false,
+  "attention_reason": null,
+  "status": "finished"
+}
